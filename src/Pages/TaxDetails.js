@@ -64,7 +64,7 @@ const TaxDetails = () => {
  
   const [SAStableData, setSASTableData] = useState([]);
   const fetchData = React.useCallback(async () => {
-    setLoading(true);
+    setLoading(false);
     
     let response2 = null;
     let book = JSON.parse(sessionStorage.getItem('P_BOOKS_PROP_APPNO'))

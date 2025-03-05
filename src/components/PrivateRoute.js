@@ -14,9 +14,9 @@ const PrivateRoute = ({ element, requiredStep }) => {
   const userProgress = getUserProgress();
 
   // If no token or user hasn't completed the required step, redirect
-  if (!token || userProgress < requiredStep) {
-    return <Navigate to="/" state={{ from: location }} />;
-  }
+  // if (!token || userProgress < requiredStep) {
+  //   return <Navigate to="/" state={{ from: location }} />;
+  // }
 
   // If both token and progress are valid, render the element
   return element;

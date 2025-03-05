@@ -44,17 +44,21 @@ import Final_eKhatha_Status_based_on_ePID from './Pages/Final_eKhatha_Status_bas
 import Amalgamation from './Pages/Amalgamation';
 import EKYCAmalgamationResponse from "./Pages/EKYCAmalgamationResponse";
 import GetNewKhataReport from './Pages/NewKhataReport';
+import BBMPLogin from './Pages/BBMPLogin';
+
+
 const AppRoutes = () => {
   return (
     <AuthProvider>
-      <Router basename="/citizen_core/">
+      <Router basename="/">
        {/* <Router basename="/objection_form_test/">  */}
       <ScrollToTop />
-        <Header />
+        {/* <Header /> */}
         <div className="App">
           {/* <Breadcrumbs /> */}
           <Routes>
-            <Route path="/" element={<BBDDraftGenerated />} />
+            <Route path="/" element={<BBMPLogin />} />
+            {/* <Route path="/" element={<Login />} /> */}
             <Route path="/PropertyList" element={<PropertyList />} />
             {/* <Route
               path="/BBDDraftGenerated"
@@ -135,6 +139,10 @@ const AppRoutes = () => {
               <Route
               path='/GetNewKhataReport'
               element={<GetNewKhataReport />}/>
+                <Route
+              path="/TaxDetails"
+              element={<PrivateRoute element={<TaxDetails />} requiredStep={3} />}
+            />
                 {/* <Route
               path="/EKYCResponse"
               element={<EKYCResponse />}  />
@@ -191,7 +199,7 @@ const AppRoutes = () => {
             <Route path="*" element={<ErrorPage />} />
           </Routes>
         </div>
-        <Footer />
+        {/* <Footer /> */}
       </Router>
     </AuthProvider>
   );

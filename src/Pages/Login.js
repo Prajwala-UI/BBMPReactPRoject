@@ -12,6 +12,8 @@ import { toast, ToastContainer } from 'react-toastify';
 import AppartMent from "../assets/Appartment.png"
 import CryptoJS from 'crypto-js';
 import { useAuth } from '../context/AuthProvider';
+
+
 const Login = () => {
   const [formData, setFormData] = useState({
     MOBILEVERIFY: "0",
@@ -70,7 +72,7 @@ const Login = () => {
     setipAddress(response.data.ip)
   }
   useEffect(() => {
-    fetchIPAddress()
+    // fetchIPAddress()
   }, [])
   const handleChange = async (e) => {
     const { name, value } = e.target;
@@ -180,14 +182,16 @@ const Login = () => {
               display: 'block',   // Prevents extra space below the image
             }}
           >
-            <img
+            {/* <img
               src={AppartMent}
               alt='no images found'
               style={{
                 maxWidth: '90%',  // Responsive width
                 height: 'auto',    // Maintains aspect ratio
               }}
-            />
+            /> */}
+
+            <h3>IMPORTANT INSTRUCTIONS/ಪ್ರಮುಖ ಸೂಚನೆಗಳು</h3>
           </Box>
         </Box>
         <Box
@@ -232,7 +236,8 @@ const Login = () => {
                 sx={{ flex: 1 }}
                 value={formData.Password}
                 onChange={handleChange}
-              />
+              /></Box>
+              <br/>
               {!otpButtonDisabled && (
                 <>
                   <Button variant="solid" color="primary" onClick={handleGenerateOtp}>Send OTP</Button>
@@ -246,7 +251,7 @@ const Login = () => {
               )}
 
 
-            </Box>
+            
           </FormControl>
           <FormControl sx={{ width: '100%', maxWidth: '500px', marginTop: 2 }}>
             <FormLabel>CAPTCHA</FormLabel>
@@ -282,7 +287,9 @@ const Login = () => {
               fullWidth
             />
           </FormControl>
+          <FormControl sx={{ width: '100%', maxWidth: '500px'}}>
           <Button sx={{ mt: 3 }} onClick={handleLogin}>Log in</Button>
+          </FormControl>
           <br></br>
           <br></br>
           <Typography variant='solid'>IP Connected:{ipAddress}</Typography>
