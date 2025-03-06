@@ -442,16 +442,20 @@
 "disclamerMessage10":"Cancel",
 "disclamer":"Disclamer",
 
-
-"LoginForm": {
-    "instruction":"IMPORTANT INSTRUCTIONS",
-    "":"How to get Final eKhata -",
-    "english":"English",
-    "kannada":"Kannada",
-    "FAQ":"FAQs on eKhata -",
-    "ekatha":"eKhata -",
-    "buttons":{
-      }
+"eaasthi":{
+  "heading":"EAasthi",
+  "bbmpHeading":"Bruhat Bengaluru Mahanagara Palike"
+},
+"buttons":{
+  "departmentLogin":"Department Login",
+  "sendOTP":"Send OTP",
+  "regenerate":"Regenerate",
+  "resendOTP":"Resend OTP",
+  "verifyOTP":"Verify OTP",
+  "changePhone":"Change Phone Number"
+},
+  "homepage":{
+    "title":"Home Page"
   },
   "citizenServices":{
     "title":"Citizen Services",
@@ -476,8 +480,96 @@
       "dropdown4":"District Wise Pendency Report",
       "dropdown5":"District Wise Mutation Report"
     }
+  },
+  "propertyTax":{
+    "title":"Property Tax"
+  },
+  "thingstoknow":{
+    "title":"Things To Know",
+    "subdropdown":{
+      "dropdown1":"Ward List",
+      "dropdown2":"Bangalore-One Centers",
+      "dropdown3":"Process Flow",
+      "east":"East"
+    }
+  },
+  "footer":{
+    "heading":"EAasthi",
+    "copyrights":"Copyright",
+    "reserved":"All Rights Reserved",
+    "headOffice":{
+      "heading":"Head Office",
+      "address":"Joint Commissioner of Revenue, NR Square, BBMP, Bengaluru.",
+      "email":"dcrev@bbmp.gov.in",
+      "phone":"(080) 2297 5555",
+      "phone1":"(080) 2266 0000"
+    },
+    "bussinessHours":{
+      "heading":"Business Hours",
+      "days":"Monday - Saturday",
+      "hours":"10am to 5.30pm",
+      "timings":"(Except 2nd & 4th Saturday)",
+      "closing":"Sunday & Govt Holidays - Closed"
+    }
+  },
+  "instructions":{
+    "title":"Important Instructions",
+    "links":{
+      "english":"English",
+      "kannada":"Kannada",
+      "clickHere":"Click Here",
+      "pendencyReports": "Pendency Reports",
+      "pendingMutations":"Pending Mutations",
+      "finalEPID":"Final eKhatha status based on ePID"
+    },
+    "statments":{
+      "get":"How to get Final eKhata - ",
+      "and":"&",
+      "FQA":"FAQs on eKhata - ",
+      "ekatha":"eKhata - ",
+      "login":"Login using mobile & OTP to see & download Draft eKhata of any/your property.",
+      "draft":"Draft eKhata has been issued as per existing BBMP Property Tax Register.",
+      "citizen":{
+        "title":"Citizen should upload additional information for getting Final eKhata Online:",
+        "deed":"Registered Deed",
+        "ekyc":"eKYC based on Aadhar",
+        "sas":"SAS Property Tax Application Number",
+        "propertyphoto":"Property Photo",
+        "document":"Documents to prove A-Khata",
+        "encumbrance":"Encumbrance Certificate (needed only when immediate sale/transfer is planned)"
+      },
+        "citizenFile":"Citizen can file Objection not to issue Final eKhata as well on any property",
+        "queries":"Any Queries? ",
+        "email":"email",
+        "call":"Call",
+        "or":"or ",
+        "draft_ward":"for draft eKhata if you know your ward",
+        "draft_Ekatha":"to know your ward & see draft eKhatha",
+        "notification":"Citizens before trying to enter the properties details for existing records, please ensure that tax for current financial year is paid.",
+        "notification1":"Please read the instructions before proceeding with the application data entry.",
+        "discrepancy":"For any Discrepancy or Queries. Contact your ARO",
+        "completeList":"For Complete list"
+      }
+    },
+    "LoginForm":{
+      "title":"Welcome Back",
+      "subTitle":"Sign into your account",
+      "phoneNumber":"Mobile Number",
+      "placeholder":"Enter Mobile Number",
+      "captcha":{
+        "title":"CAPTCHA",
+        "placeholder":"Enter CAPTCHA"
+      },
+      "otp":{
+        "OTP":"OTP",
+        "otpsent":"OTP sent to ",
+        "placeholder":"Enter OTP",
+        "otpTimer":"OTP expires in ",
+        "seconds":"seconds"
+      }
+      
+    }
   }
 
-
-    }
+    
   }

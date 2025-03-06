@@ -58,7 +58,7 @@ const AppRoutes = () => {
           {/* <Breadcrumbs /> */}
           <Routes>
             <Route path="/" element={<BBMPLogin />} />
-            {/* <Route path="/" element={<Login />} /> */}
+            <Route path="/login" element={<Login />} />
             <Route path="/PropertyList" element={<PropertyList />} />
             {/* <Route
               path="/BBDDraftGenerated"

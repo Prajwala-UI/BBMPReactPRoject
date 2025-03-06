@@ -7,11 +7,18 @@
 /*--------------------------------------------------------------
 # General
 --------------------------------------------------------------*/
+
+:root {
+    --primary-color:linear-gradient(45deg, #023e8a, #0077b6);
+    --font-color:#ffffff;
+    --font-family: "Gill Sans", sans-serif;
+}
+
 body {
     background: #fff;
     color: #666666;
     width: 100%;
-    font-family:  'VerdanaGeorgia', serif;
+    font-family:  var(--font-family);
     /* overflow-x: hidden; */
   }
   
@@ -32,7 +39,7 @@ body {
   }
   
   h1, h2, h3, h4, h5, h6 {
-    font-family:  'VerdanaGeorgia', serif;
+    font-family:  var(--font-family);
     font-weight: 400;
     margin: 0 0 20px 0;
     padding: 0;
@@ -43,7 +50,7 @@ body {
     position: fixed;
     display: none;
     
-    background: linear-gradient(45deg, #023e8a, #0077b6);
+    background: var(--primary-color);
     color: #fff;
     padding: 2px 20px 8px 20px;
     font-size: 16px;
@@ -53,17 +60,16 @@ body {
     transition: none;
   }
   .font_color{
-    background: linear-gradient(45deg, #023e8a, #0077b6);
+    background: var(--primary-color);
     -webkit-background-clip: text;
     -webkit-text-fill-color: transparent
   }
   .btn_color {
-    background: linear-gradient(45deg, #023e8a, #0077b6);
-    color: #fff; /* Keep text visible */
-    border: none;
+    background-color: #023e8a;
+    color: #fff; 
   }
   .back-to-top:focus {
-    background: linear-gradient(45deg, #023e8a, #0077b6);
+    background: var(--primary-color);
     color: #fff;
     outline: none;
   }
@@ -84,7 +90,7 @@ body {
     width: 100%;
     padding: 15px 0;
     height: 70px;
-    background: linear-gradient(45deg, #023e8a, #0077b6); /* Ensures visibility */
+    background: var(--primary-color); /* Ensures visibility */
     z-index: 999; /* Higher value to ensure it stays on top */
     transition: all 0.5s;
   }
@@ -95,12 +101,12 @@ body {
   }
   
   #header #logo h1 {
-    font-size: 36px;
+    font-size: 30px;
     margin: -4px 0 0 0;
     padding: 0;
     line-height: 1;
     display: inline-block;
-    font-family:  'VerdanaGeorgia', serif;
+    font-family:  var(--font-family);
     font-weight: 300;
     letter-spacing: 3px;
     text-transform: uppercase;
@@ -127,7 +133,7 @@ body {
   }
   
   #header.header-fixed {
-    background: linear-gradient(45deg, #023e8a, #0077b6);
+    background: var(--primary-color);
     padding: 20px 0;
     height: 72px;
     transition: all 0.5s;
@@ -139,7 +145,7 @@ body {
   #intro {
     
     /* height: 18vh; */
-    /* background: linear-gradient(45deg, #023e8a, #0077b6); */
+    /* background: var(--primary-color); */
     
     position: relative;
   }
@@ -173,7 +179,7 @@ body {
     #intro {
       width: 100%;
       height: 10vh;
-      background: linear-gradient(45deg, #023e8a, #0077b6);
+      background: var(--primary-color);
       position: relative;
     }
     #intro .intro-text {
@@ -213,7 +219,7 @@ body {
   }
   
   #intro .btn-get-started {
-    font-family:  'VerdanaGeorgia', serif;
+    font-family:  var(--font-family);
     font-weight: 400;
     font-size: 16px;
     letter-spacing: 1px;
@@ -388,7 +394,7 @@ body {
     text-decoration: none;
     display: inline-block;
     color: #fff;
-    font-family: 'VerdanaGeorgia', serif;
+    font-family: var(--font-family);
     font-weight: 400;
     font-size: 14px;
     outline: none;
@@ -575,7 +581,8 @@ body {
   /* About Us Section
   --------------------------------*/
   #about {
-    padding: 60px 0;
+    padding: 25px 0;
+    background-color: #ffffff;
   }
   
   #about .about-img {
@@ -598,10 +605,17 @@ body {
     }
   }
   
-  #about .content .h2 {
-    color: #333;
+  #about .content h2 {
+    color: #023e8a;
     font-weight: 300;
     font-size: 24px;
+  }
+  #about .content .instruction{
+    color: #023e8a;
+    font-weight: 300;
+    font-size: 24px;
+    line-height: 40px;
+    text-decoration: underline;
   }
   
   #about .content h3 {
@@ -609,11 +623,11 @@ body {
     font-weight: 300;
     font-size: 18px;
     line-height: 26px;
-    font-style: italic;
+    font-style: bold;
   }
   
   #about .content p {
-    line-height: 0px;
+    line-height: 20px;
   }
   
   #about .content p:last-child {
@@ -675,7 +689,7 @@ body {
   
   #features .icon i:before {
     background: #0077b6;
-    background: linear-gradient(45deg, #023e8a, #0077b6);
+    background: var(--primary-color);
     background-clip: border-box;
     -webkit-background-clip: text;
     -webkit-text-fill-color: transparent;
@@ -738,7 +752,7 @@ body {
   
   #advanced-features i:before {
     background: #0077b6;
-    background: linear-gradient(45deg, #023e8a, #0077b6);
+    background: var(--primary-color);
     background-clip: border-box;
     -webkit-background-clip: text;
     -webkit-text-fill-color: transparent;
@@ -797,7 +811,7 @@ body {
   }
   
   #call-to-action .cta-btn {
-    font-family:  'VerdanaGeorgia', serif;
+    font-family:  var(--font-family);
     font-weight: 500;
     font-size: 16px;
     letter-spacing: 1px;
@@ -963,7 +977,7 @@ body {
     transition: none;
     font-size: 14px;
     font-weight: 400;
-    font-family:  'VerdanaGeorgia', serif;
+    font-family:  var(--font-family);
   }
   
   #pricing .featured {
@@ -971,7 +985,7 @@ body {
   }
   
   #pricing .featured .get-started-btn {
-    background: linear-gradient(45deg, #023e8a, #0077b6);
+    background: var(--primary-color);
   }
   
   /* Frequently Asked Questions Section
@@ -993,7 +1007,7 @@ body {
     padding: 18px 0;
     display: block;
     position: relative;
-    font-family:  'VerdanaGeorgia', serif;
+    font-family:  var(--font-family);
     font-size: 22px;
     line-height: 1;
     font-weight: 300;
@@ -1130,6 +1144,11 @@ body {
     background: rgba(0, 0, 0, 0.7);
   }
   
+   .loginContent {
+    box-shadow: 0px 0px 50px 0px rgba(0, 0, 0, 0.3);
+    padding: 30px 0 0 0;
+  }
+
   /* Contact Section
   --------------------------------*/
   #contact {
@@ -1142,7 +1161,7 @@ body {
     margin: 0 0 10px 0;
     padding: 0;
     line-height: 1;
-    font-family: 'VerdanaGeorgia', serif;
+    font-family: var(--font-family);
     font-weight: 300;
     letter-spacing: 3px;
     text-transform: uppercase;
@@ -1152,7 +1171,7 @@ body {
   #contact .contact-about p {
     font-size: 14px;
     line-height: 24px;
-    font-family:  'VerdanaGeorgia', serif;
+    font-family:  var(--font-family);
     color: #888;
   }
   
@@ -1261,7 +1280,7 @@ body {
   }
   
   #contact .form button[type="submit"] {
-    background: linear-gradient(45deg, #023e8a, #0077b6);
+    background: var(--primary-color);
     border: 0;
     border-radius: 20px;
     padding: 8px 30px;
@@ -1299,6 +1318,14 @@ body {
   
   #footer .footer-links a:hover {
     color: #0077b6;
+  }
+  .link_style{
+    text-decoration: none;
+    color: #0077b6;
+  }
+  .link_style:hover{   
+    color: #0077b6; 
+    text-decoration: none;
   }
   
   
