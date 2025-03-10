@@ -331,9 +331,24 @@ const BBMP_TaxDetails = () => {
                                                                 </div>
                                                             </div>
                                                         </div>
-                                                        <div className="col-md-12 col-lg-12">
+                                                        <div className="col-md-6 col-lg-6">
                                                             <span>If Registation happend after 01-04-2004, then enter Registation Number <span style={{color:'red'}}>*</span></span>
                                                         </div>
+                                                        <div className="col-md-4 col-lg-4">
+                                                        <div className="form-group">
+                                                            <label className="form-label">EC Document Number</label>
+                                                            <input
+                                                                type="text"
+                                                                className="form-control"
+                                                                name="example-text-input"
+                                                                placeholder='EC Document Number'/>
+                                                        </div>
+                                                    </div>
+                                                    <div className="col-md-2 col-lg-2">
+                                                        <div className="form-group">
+                                                        <a href="/" color="primary">View Sample</a>
+                                                        </div>
+                                                    </div>
                                                     </div>
                                                 </div>
                                             </div>
