@@ -179,7 +179,7 @@ const LocationDetails = () => {
   }, [validationSchema]);
 
   useEffect(() => {
-    fetchData();
+    // fetchData();
   }, [fetchData]);
 
   const handleChange = (e) => {

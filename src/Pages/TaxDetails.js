@@ -12,6 +12,7 @@ import axiosInstance from '../components/Axios';
 import ErrorPage from './ErrorPage';
 import LabelWithAsterisk from '../components/LabelWithAsterisk'
 import ViewSample from '../components/ViewSample';
+import KaveriData from './KaveriData';
 
 const TaxDetails = () => {
   const [formData, setFormData] = useState({
@@ -766,7 +767,7 @@ const handleCloseDialog = () => {
                   </Button>
                 </Box>
               </Grid>
-            
+            <KaveriData />
        
       </Box>
     </Container>

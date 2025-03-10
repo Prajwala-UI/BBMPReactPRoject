@@ -339,7 +339,7 @@ const handleAddressEdit = () => {
  
   
   useEffect(() => {
-    fetchData();
+    // fetchData();
   }, [fetchData]);
  
 

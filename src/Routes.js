@@ -45,6 +45,7 @@ import Amalgamation from './Pages/Amalgamation';
 import EKYCAmalgamationResponse from "./Pages/EKYCAmalgamationResponse";
 import GetNewKhataReport from './Pages/NewKhataReport';
 import BBMPLogin from './Pages/BBMPLogin';
+import BBMP_TaxDetails from './Pages/BBMP/taxDetails';
 
 
 const AppRoutes = () => {
@@ -58,6 +59,7 @@ const AppRoutes = () => {
           {/* <Breadcrumbs /> */}
           <Routes>
             <Route path="/" element={<BBMPLogin />} />
+            <Route path="/tax_Details" element={<BBMP_TaxDetails />} />
             <Route path="/login" element={<Login />} />
             <Route path="/PropertyList" element={<PropertyList />} />
             {/* <Route
@@ -143,15 +145,15 @@ const AppRoutes = () => {
               path="/TaxDetails"
               element={<PrivateRoute element={<TaxDetails />} requiredStep={3} />}
             />
-                {/* <Route
+                 <Route
               path="/EKYCResponse"
               element={<EKYCResponse />}  />
            
-             {/* <Route
+            {/* <Route
               path="/BBDDraft"
               element={<PrivateRoute element={<BBDDraft />} requiredStep={1} />}
-            />  */}
-                {/* <Route
+            />   */}
+                <Route
               path="/ObjectorsPage"
               element={<PrivateRoute element={<ObjectorsPage />} requiredStep={3} />}
             /> 
@@ -195,7 +197,7 @@ const AppRoutes = () => {
               <Route
               path="/ESignPage"
               element={<PrivateRoute element={<ESignPage />} />}
-            /> */}
+            /> 
             <Route path="*" element={<ErrorPage />} />
           </Routes>
         </div>

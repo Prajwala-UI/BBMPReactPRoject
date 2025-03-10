@@ -568,6 +568,26 @@
         "seconds":"seconds"
       }
       
+    },
+    "data_as_per_bbmp_Register":{
+      "title":"Data as per BBMP Registers",
+      "input":{
+        "propertyEPID":"Property EPID",
+        "district":"District",
+        "city":"City",
+        "wardno_name":"Ward No & Ward Name",
+        "oldwardno":"Old Ward No",
+        "propertyoldno":"Property Old Number",
+        "sasapplicationno":"SAS Application No",
+        "propertyAddress":"Property Address",
+        "propertytype":"Property Type",
+        "propertycategory":"Property Category (A/B)",
+        "streetname":"Street Name"
+        
+      },
+      "placeholder":{
+
+      }
     }
   }
 

@@ -318,7 +318,7 @@ debugger
       callEditEYCDate();
     }
 
-    fetchData();
+    // fetchData();
   }, [location.search,fetchData]);
   const handleSubmit = (e) => {
 

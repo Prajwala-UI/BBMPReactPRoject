@@ -104,7 +104,7 @@ const KaveriData = () => {
   useEffect(() => {
 
 
-    fetchData("AfterKaveriVerification")
+   // fetchData("AfterKaveriVerification")
 
   }, [fetchData])
  
@@ -164,7 +164,7 @@ const KaveriData = () => {
         progress: undefined,
       });
       setTimeout(() => {
-        navigate('/ErrorPage', { state: { errorMessage: error.message, errorLocation: window.location.pathname } });
+        // navigate('/ErrorPage', { state: { errorMessage: error.message, errorLocation: window.location.pathname } });
       }, 1000);
     }
   };
