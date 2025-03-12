@@ -249,7 +249,7 @@ const BBMPLogin = () => {
                                     <section className="loginContent">
                                         <div className="container">
                                         <h4 className=" fw-bold text-center mb-3">{t('translation.LoginForm.title')}</h4>
-                                        <h3 className=" fw-bold text-center mb-3">{t('translation.LoginForm.subTitle')}</h3>
+                                        <h3 className=" fw-bold text-center mb-2" style={{ color:' #023e8a'}}>{t('translation.LoginForm.subTitle')}</h3>
                                         <hr/>
                                         <form>
                                             {!showOTPFields ? (
