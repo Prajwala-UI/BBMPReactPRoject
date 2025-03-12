@@ -14,8 +14,7 @@
       "BookNO":"Book No",
       "PageNumber":"Page Number",
       "district": "District",
-      "wardNumber": "Ward No",
-      "wardName": "Ward Name",
+      "wardNumber": "Ward No. and Ward Name",
       "oldWardNo":"Old Ward No",
       "oldPropertyNo":"Old Property No",
       "LocationTitle":"Location search (Enter a landmark near your property to zoom into that area & then select your specific property)",
@@ -38,7 +37,7 @@
       "save": "Save & Next",
       "Save":"Save",
       "clear": "Clear",
-      "SASBaseApplicationNo":"SAS Application No",
+      "SASBaseApplicationNo":"SAS Base Application No",
       "DeleteImage":"Delete Image",
       "VerifySASApplicationNumber":"Verify SAS Application Number ",
       "KHATHASURVEYNO":"KHATHA SURVEY NO",
@@ -444,18 +443,16 @@
 "disclamer":"Disclamer",
 
 "eaasthi":{
-  "heading":"e-Aasthi",
+  "heading":"EAasthi",
   "bbmpHeading":"Bruhat Bengaluru Mahanagara Palike"
 },
-
 "buttons":{
   "departmentLogin":"Department Login",
   "sendOTP":"Send OTP",
   "regenerate":"Regenerate",
   "resendOTP":"Resend OTP",
   "verifyOTP":"Verify OTP",
-  "changePhone":"Change Phone Number",
-  "getKaveriData":"Get Kaveri Data"
+  "changePhone":"Change Phone Number"
 },
   "homepage":{
     "title":"Home Page"
@@ -474,7 +471,7 @@
       "dropdown9":"eSwathu Draft Report"
     }
   },
-  "reports":{ 
+  "reports":{
     "title":"Reports",
     "subdropdown":{
       "dropdown1":"Dashboard",
@@ -578,40 +575,19 @@
         "propertyEPID":"Property EPID",
         "district":"District",
         "city":"City",
-        "wardno":"Ward Number",
-        "wardname":"Ward Name",
+        "wardno_name":"Ward No & Ward Name",
         "oldwardno":"Old Ward No",
         "propertyoldno":"Property Old Number",
         "sasapplicationno":"SAS Application No",
         "propertyAddress":"Property Address",
         "propertytype":"Property Type",
         "propertycategory":"Property Category (A/B)",
-        "streetname":"Street Name",
-         "sasapplicationno1":"Enter SAS Property Tax 10-digit Application Number :"
-      },
-      "propertyType":{
-        "option1":"Vacant Site",
-        "option2":"Site with Building",
-        "option3":"Multistorey Flats"
-
+        "streetname":"Street Name"
+        
       },
       "placeholder":{
 
       }
-    },
-    "kaveriData":{
-    "title":"KAVERI REGISTRATION DATA",
-    "radio":{
-      "option1":"If Registration happend after 01-04-2004, then enter Registration Number",
-      "option2":"If the registration happend prior to 01-04-2004, then upload title documents (Case will be referred to ARO)",
-      "option3":"Do not have a registered title document (Case will be referred to ARO)"
-    },
-    "registrationNo":"If Registation happend after 01-04-2004, then enter Registation Number",
-    "registerNo":"Registration Number",
-    "placeholder":"Registration Number",
-    "viewSample" :"View Sample"
-
-
     }
   }
 

@@ -4,22 +4,19 @@ import niclogo from '../assets/NIC_Logo1-01.png';
 import bbmplogo from '../assets/bbmp.png';
 import { useTranslation } from "react-i18next";
 import i18n from "../localization/i18n";
-import "bootstrap/dist/css/bootstrap.min.css";
-import "bootstrap/dist/js/bootstrap.bundle.min";
 
 
-const DashboardLayout = ({ children }) => {
 
-  const { t, i18n } = useTranslation();
-  const isEnglish = i18n.language === 'kn';
-  const [language, setLanguage] = useState('kn');
-  const handleLanguageChange = (event) => {
-    const newLang = event.target.value;
-    setLanguage(newLang);
-    i18n.changeLanguage(newLang);
-    localStorage.setItem("selectedLanguage", newLang);
-  };
-  const [menuOpen, setMenuOpen] = useState(false);
+const DashboardLayout = ({ children })=>  {
+    
+        const isEnglish = i18n.language === 'kn';
+        const [language, setLanguage] = useState('kn');
+    const handleLanguageChange = (event) => {
+        const newLang = event.target.value;
+        setLanguage(newLang);
+        i18n.changeLanguage(newLang);
+        localStorage.setItem("selectedLanguage", newLang);
+    };
   return (
     <div classNameName="App">
 
@@ -32,7 +29,7 @@ const DashboardLayout = ({ children }) => {
                   <img src={bbmplogo} width={60} height={50} />
                 </div>
                 <div className='col-md-8 col-12 py-1'>
-                  <h3>{t('translation.eaasthi.bbmpHeading')}<br />{t('translation.eaasthi.heading')}</h3>
+                  <h3>Bruhat Bengaluru Mahanagara Palike<br/>e-Aasthi</h3>
                 </div>
                 <div className='col-md-2 col-12'>
                   <div className="d-flex">
@@ -40,136 +37,50 @@ const DashboardLayout = ({ children }) => {
                   </div>
                 </div>
               </div>
+
+
             </div>
           </div>
-
-          <nav className="header navbar navbar-expand-lg navbar-light bg-light">
+          <div className="header collapse d-lg-flex p-0" id="headerMenuCollapse">
             <div className="container">
-              {/* Navbar Toggle Button for Mobile */}
-              <button
-                className="navbar-toggler"
-                type="button"
-                onClick={() => setMenuOpen(!menuOpen)}
-              >
-                <span className="navbar-toggler-icon"></span>
-              </button>
-
-              {/* Collapsible Navbar */}
-              <div
-                className={`collapse navbar-collapse ${menuOpen ? "show" : ""}`}
-                id="navbarMenu"
-              >
-                <ul className="navbar-nav mr-auto">
-                  <li className="nav-item">
-                    <a href="./index.html" className="nav-link active">
-                      <i className="fa fa-home"></i>&nbsp; {t('translation.homepage.title')}
-                    </a>
-                  </li>
-                  <li className="nav-item dropdown">
-                    <a href="#" className="nav-link dropdown-toggle" id="citizenServicesDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
-                      <i className="fa fa-box"></i>&nbsp; {t('translation.citizenServices.title')}
-                    </a>
-                    <ul className="dropdown-menu" aria-labelledby="citizenServicesDropdown">
-                      <li>
-                        <a className="dropdown-item" href="#">{t('translation.citizenServices.subdropdown.dropdown1')}</a>
-                      </li>
-                      <li>
-                        <a className="dropdown-item" href="#">{t('translation.citizenServices.subdropdown.dropdown2')}</a>
-                      </li>
-                      <li>
-                        <a className="dropdown-item" href="#">{t('translation.citizenServices.subdropdown.dropdown3')}</a>
-                      </li>
-                      <li>
-                        <a className="dropdown-item" href="#">{t('translation.citizenServices.subdropdown.dropdown4')}</a>
-                      </li>
-                      <li>
-                        <a className="dropdown-item" href="#">{t('translation.citizenServices.subdropdown.dropdown5')}</a>
-                      </li>
-                      <li>
-                        <a className="dropdown-item" href="#">{t('translation.citizenServices.subdropdown.dropdown6')}</a>
-                      </li>
-                      <li>
-                        <a className="dropdown-item" href="#">{t('translation.citizenServices.subdropdown.dropdown7')}</a>
-                      </li>
-                      <li>
-                        <a className="dropdown-item" href="#">{t('translation.citizenServices.subdropdown.dropdown8')}</a>
-                      </li>
-                      <li>
-                        <a className="dropdown-item" href="#">{t('translation.citizenServices.subdropdown.dropdown9')}</a>
-                      </li>
-                    </ul>
-                  </li>
-                  <li className="nav-item dropdown">
-                    <a href="#" className="nav-link dropdown-toggle"  role="button" data-bs-toggle="dropdown" aria-expanded="false">
-                      <i className="fa fa-calendar"></i>&nbsp; {t('translation.reports.title')}
-                    </a>
-                    <ul className="dropdown-menu" aria-labelledby="citizenServicesDropdown">
-                      <li>
-                        <a className="dropdown-item" href="#">{t('translation.reports.subdropdown.dropdown1')}</a>
-                      </li>
-                      <li>
-                        <a className="dropdown-item" href="#">{t('translation.reports.subdropdown.dropdown2')}</a>
-                      </li>
-                      <li>
-                        <a className="dropdown-item" href="#">{t('translation.reports.subdropdown.dropdown3')}</a>
-                      </li>
-                      <li>
-                        <a className="dropdown-item" href="#">{t('translation.reports.subdropdown.dropdown4')}</a>
-                      </li>
-                      <li>
-                        <a className="dropdown-item" href="#">{t('translation.reports.subdropdown.dropdown5')}</a>
-                      </li>
-                    </ul>
-                  </li>
-                  <li className="nav-item dropdown">
-                    <a href="#" className="nav-link" >
-                      <i className="fa fa-file"></i>&nbsp; {t('translation.propertyTax.title')}
-                    </a>
-                  </li>
-                  <li className="nav-item dropdown">
-                    <a href="#" className="nav-link dropdown-toggle"  role="button" data-bs-toggle="dropdown" aria-expanded="false">
-                      <i className="fa fa-box"></i>&nbsp; {t('translation.thingstoknow.title')}
-                    </a>
-                    <ul className="dropdown-menu" aria-labelledby="citizenServicesDropdown">
-                      <li>
-                        <a className="dropdown-item" href="#">Sub Item 1</a>
-                      </li>
-                      <li className="dropdown-submenu">
-                        <a className="dropdown-item dropdown-toggle" href="#">Sub Menu</a>
-                        <ul className="dropdown-menu">
-                          <li><a className="dropdown-item" href="#">Sub Item 2.1</a></li>
-                          <li><a className="dropdown-item" href="#">Sub Item 2.2</a></li>
-                        </ul>
-                      </li>
-                      <li>
-                        <a className="dropdown-item" href="#">Sub Item 3</a>
-                      </li>
-                    </ul>
-                  </li>
-                </ul>
-
-                {/* Right Side Buttons */}
-                <div className="d-flex align-items-center">
-                  <button
-                    className="btn btn-sm"
-                    style={{ backgroundColor: "#fff", color: "#023e8a" }}
+              <div className="row align-items-center">
+                <div class="col-lg-3 ml-auto">
+                  <button className='btn btn-sm' style={{ backgroundColor: '#fff', color: '#023e8a' }}>Department Login</button>
+                 &nbsp;
+                  <select
+                    className="language-dropdown"
+                    defaultValue="kannada"
+                    onChange={handleLanguageChange}
                   >
-                    Department Login
-                  </button>
-                  &nbsp;
-                  <select className="language-dropdown"
-                    defaultValue="kannada" onChange={handleLanguageChange}>
-                    <option value="kn" className="text-black">
-                      ಕನ್ನಡ
-                    </option>
-                    <option value="en" className="text-black">
-                      English
-                    </option>
+                    <option value="kn" className="text-black">ಕನ್ನಡ</option>
+                    <option value="en" className="text-black">English</option>
                   </select>
+              </div>
+                <div className="col-lg order-lg-first">
+                  <ul className="nav nav-tabs border-0 flex-column flex-lg-row">
+                    <li className="nav-item">
+                      <a href="./index.html" className="nav-link active"><i className="fa fa-home"></i>Homepage</a>
+                    </li>
+                    <li className="nav-item">
+                      <a href="#" className="nav-link" data-toggle="dropdown"><i className="fa fa-box"></i> Citizen Services</a>
+                      
+                    </li>
+                    <li className="nav-item dropdown">
+                      <a href="#" className="nav-link" data-toggle="dropdown"><i className="fa fa-calendar"></i> Reports</a>
+                    
+                    </li>
+                    <li className="nav-item dropdown">
+                      <a href="#" className="nav-link" data-toggle="dropdown"><i className="fa fa-file"></i> Property Tax</a>
+                    </li>
+                    <li className="nav-item dropdown">
+                      <a href="./form-elements.html" className="nav-link "><i className="fa fa-check-square"></i> Things to Know</a>
+                    </li>
+
+                  </ul>
                 </div>
               </div>
             </div>
-          </nav>
+          </div>
 
           <main>{children}</main>
 
