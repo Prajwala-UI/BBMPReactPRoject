@@ -23,7 +23,7 @@
       "Street/Nearst Street":"Street/Nearst Street",
       "Select Street/Nearst Street From List Of Ward Streets":"Select Street/Nearst Street From List Of Ward Streets",
       "propertyNumber": "Property Number",
-      "ownerName": "Owner Name",
+      "ownerName": "Name of the Khatedar",
       "streetName": "Street Name",
       "doorPlotNo": "Door/Plot No",
       "buildingLandName": "Building/Land Name",
@@ -40,7 +40,7 @@
       "clear": "Clear",
       "SASBaseApplicationNo":"SAS Application No",
       "DeleteImage":"Delete Image",
-      "VerifySASApplicationNumber":"Verify SAS Application Number ",
+      "VerifySASApplicationNumber":"Verify Data",
       "KHATHASURVEYNO":"KHATHA SURVEY NO",
       "PropertyAddress":"Property Address",
       "PropertyNature":"Property Nature",
@@ -455,7 +455,11 @@
   "resendOTP":"Resend OTP",
   "verifyOTP":"Verify OTP",
   "changePhone":"Change Phone Number",
-  "getKaveriData":"Get Kaveri Data"
+  "getKaveriData":"Get Kaveri Data",
+  "save&next":"Save & Procced Next",
+  "edit":"Edit",
+  "saveDeedInfo":"Save Deed Information",
+  "deptLogin":"Department Login"
 },
   "homepage":{
     "title":"Home Page"
@@ -497,7 +501,8 @@
     }
   },
   "footer":{
-    "heading":"EAasthi",
+    "heading1":"e-Aasthi",
+    "heading":"Bruhat Bengaluru Mahanagara Palike",
     "copyrights":"Copyright",
     "reserved":"All Rights Reserved",
     "headOffice":{
@@ -609,9 +614,106 @@
     "registrationNo":"If Registation happend after 01-04-2004, then enter Registation Number",
     "registerNo":"Registration Number",
     "placeholder":"Registration Number",
-    "viewSample" :"View Sample"
+    "viewSample" :"View Sample",
+    "KaveriDocumentData":{
+      "title":"Kaveri Document Data",
+      
+      "table":{
+        "finalregistrationNo":"Final Registration Number",
+        "natureDeed":"Nature Deed",
+        "applicationNo":"Application Number",
+        "registrationDate":"Registration Datetime",
+        "propertyDetails":"Property Details",
+        "propertyID":"Property Id",
+        "documentID":"Document Id",
+        "village":"Village Name",
+        "sroName":"SRO Name",
+        "schedulerDetails":"Property Schedules Details",
+        "scheduleType":"Schedule Type",
+        "propertyArea":"Property Area",
+        "scheduleDesc":"Schedule Description",
+        "documentOwnerData":"Document Owner Data",
+        "partyName":"Party Name",
+        "idproofType":"Id ProofType",
+        "partyType":"Party Type",
+        "partyAddress":"Party Address",
+        "idproofNumber":"Id Proof Number",
+        "admissionDate":"Admission Date",
+        "deedInformation":"Please Select The Property From The Deed Information",
+        "selectProperty":"Select Property",
+        "propertyType":"Property Type",
+        "scheduleInformation":"Please Select A Schedule From The Below List",
+        "selectschedule":"Select Schedule",
+        "totalarea":"Total Area",
+        "unitOfArea":"Unit Of Area",
+        "sqft":"Sq.Ft.",
+        "sqmt":"Sq.Mt.",
+        "articleType":"Article type",
+        "registrationDateTime":"Registation Date Time",
+        "areasqmt":"Area(Sq.mt)",
+        "areaftmt":"Area(Sq.ft)",
+        "measurement":"Measurement"
 
 
+      },
+      "radiobtn2":{
+        "title":"If the registration happened prior to 01-04-2004, then upload title documents",
+        "documentDetails":"Document Details",
+        "documentType":"Document Type",
+        "documentDateTime":"Document Registered Date (dd-mm-yyyy)",
+        "documentRegistrationNo":"Document Registration No",
+        "uploadDocument":"Upload Document",
+        "slno":"Sl.No",
+        "action":"Action"
+      },
+      "select":{
+        "option1":"Other",
+        "option2":"Possession Certificate"
+
+      }
+
+    }
+
+    },
+    "section8":{
+      "title1":"I want to go for immediate sale/transfer of property, which I understand requires me to go to the jurisdictional ARO for in-person verification:",
+      "title2":"Note: If anytime when you want to sell/transfer you will need to undergo in-person verification by jurisdictional ARO.",
+      "title3":"If you select No, you will get final eKhata immediately.",
+      "radio_yes":"Yes",
+      "radio_no":"No"
+    },
+    "declaration":{
+      "first_checkbox":"I understand",
+      "first_title":"1. 'A' & 'B' Khatha is being issued as per existing BBMP property Tax records & subject to final verification as per my submitted documents.",
+      "second_title":"2. In case of any discrepancy between existing BBMP records & my submitted infomration or missing information, my case will be referred to the jurisdictional ARo for decision on merit.",
+      "third_title":"3. Any eKhatha on government or government organization land is liable to be rejected or cancelled.",
+      "fourth_title":"4. Any wrongful or incorrect eKhatha issued is liable to be cancelled.",
+      "second_checkbox":"I certify that information submitted is true & correct to the best of my knowledge & belief and any false or wrong information makes eKhatha liable to be cancelled & make me liable for criminal/suitable action as per law."
+    },
+    "modal":{
+      "sasapplicationno":"Sample SAS Property Tax 10-digit Application Number",
+      "deedno":"Sample Deed Registation Number"
+    },
+    "table":{
+      "sas":{
+        "sas_applicationno":"SAS Application No",
+        "epid":"PID No",
+        "khataNo":"Khata/ Survey no",
+        "name_khatedar":"Name of the Khatedar",
+        "address":"Property Address",
+        "type":"Property Type",
+        "sitearea":"SiteArea(in Sq.fts)",
+        "builduparea":"Built-upArea(in Sq.fts)"
+      }
+    },
+    "validation":{
+      "verifyData":{
+        "sas_required":"SAS Application Number is required",
+        "sas_swz":"SAS Number should not start with zero",
+        "sas_all_zeros":"SAS Number cannot be all zeros",
+        "sas_ten_digits":"SAS Number must be exactly 10 digits"
+
+      }
     }
   }
 

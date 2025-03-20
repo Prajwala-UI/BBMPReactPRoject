@@ -2,6 +2,8 @@ import React, { useEffect, useState, useRef } from 'react';
 import DashboardLayout from '../../Layout/DashboardLayout';
 import { useTranslation } from "react-i18next";
 import i18n from "../../localization/i18n";
+import SAS_Sample from '../../assets/Sample_SAS_APPLICATIONNO.jpeg';
+import SampleDeep_no from '../../assets/deedNo.jpg';
 
 
 const BBMP_TaxDetails = () => {
@@ -35,106 +37,139 @@ const BBMP_TaxDetails = () => {
     const [propertyCategory, setPropertyCategory] = useState('');
     const [streetName, setStreetName] = useState('');
 
-//Kaveri radio btn variables
-const [iskaveriRadioSelected, setIsKaveriRadioSelected] = useState(false);
-  const [kaverisqMeters, setKaveriSqMeters] = useState("");
-  const [kaverisqFeet, setKaveriSqFeet] = useState("");
-  
-  const handleKaveriRadioChange = () => {
-    setIsKaveriRadioSelected(true);
-  };
+    //fetching feilds variable
+    const [fetchsasNo, setFetchsasNo] = useState('');
 
-  const handleSqMetersChange = (e) => {
-    const value = e.target.value;
-    setKaveriSqMeters(value);
-    if (value) {
-        setKaveriSqFeet((value * 10.764).toFixed(2)); // Convert Sq.M to Sq.Ft
-    } else {
-        setKaveriSqFeet("");
-    }
-  };
+    //validations error variables
+    const [errors, setErrors] = useState({});
 
-  const handleSqFeetChange = (e) => {
-    const value = e.target.value;
-    setKaveriSqFeet(value);
-    if (value) {
-      setKaveriSqMeters((value / 10.764).toFixed(2)); // Convert Sq.Ft to Sq.M
-    } else {
-      setKaveriSqMeters("");
-    }
-  };
+    //table visibility
+    const [isSasValid, setIsSasValid] = useState(false); // New state to control table visibility
+
+    //Kaveri radio btn variables
+    const [iskaverimainRadioSelected, setIsKaverimainRadioSelected] = useState(false);
+    const [iskaveriRadioSelected, setIsKaveriRadioSelected] = useState(false);
+    const [kaverisqMeters, setKaveriSqMeters] = useState("");
+    const [kaverisqFeet, setKaveriSqFeet] = useState("");
+    const [kaverideedno, setKaverideedno] = useState("");
+    const [showKaveriDocumentData, setShowKaveriDocumentData] = useState(false);
+    const [selectedDeedInfoOption, setSelectedDeedInfoOption] = useState(null);
+    const [showScheduleTable, setShowScheduleTable] = useState(false);
+    const [showDeedInfo, setShowDeedInfo] = useState(true);
+    const [showSaveDeedInformationTable, setShowSaveDeedInformationTable] = useState(false);
+    const [selectedSchedule, setSelectedSchedule] = useState(null);
+    const [selectedUnit, setSelectedUnit] = useState(null);
+    const [errorSavingDeedInfo, setErrorSavingDeedInfo] = useState("");
+    const [kaveri_documentType, setKaveri_DocumentType] = useState("0");
+    const [documentdate, setdocumentDate] = useState("");
+    const [showDocumentDetails, setShowDocumentDetails] = useState(false);
+    const [showRegistrationContent, setShowregistrationContent] = useState(false);
 
 
-  //Map
-  const mapRef = useRef(null);
-  const searchInputRef = useRef(null);
-  const [latitude, setLatitude] = useState("N/A");
-  const [longitude, setLongitude] = useState("N/A");
-  const [resultType, setResultType] = useState("Please select a property on Google Maps:");
-  const markerRef = useRef(null);
-  let map, autocomplete, geocoder;
 
-  useEffect(() => {
-    const initMap = () => {
-      const center = { lat: 13.0074, lng: 77.5688 };
-      map = new window.google.maps.Map(mapRef.current, {
-        center,
-        zoom: 17,
-        mapTypeId: "hybrid",
-      });
+    const minDate = "1950-01-01"; // Minimum allowed date
+    const maxDate = "2004-04-01"; // Maximum allowed date
 
-      markerRef.current = new window.google.maps.Marker({
-        map,
-        draggable: true,
-      });
 
-      autocomplete = new window.google.maps.places.Autocomplete(searchInputRef.current, {
-        componentRestrictions: { country: "in" },
-      });
 
-      autocomplete.addListener("place_changed", () => {
-        const place = autocomplete.getPlace();
-        if (!place.geometry) return;
-
-        map.setCenter(place.geometry.location);
-        markerRef.current.setPosition(place.geometry.location);
-        updateCoordinates(place.geometry.location, "Search Result", place.formatted_address);
-      });
-
-      geocoder = new window.google.maps.Geocoder();
-      
-      map.addListener("click", (event) => {
-        placeMarker(event.latLng);
-        geocodeLocation(event.latLng);
-      });
-
-      markerRef.current.addListener("dragend", (event) => {
-        geocodeLocation(event.latLng);
-      });
+    const handleKaveriMainRadioChange = (e) => {
+        setIsKaverimainRadioSelected(e.target.value);
     };
 
-    const placeMarker = (location) => {
-      markerRef.current.setPosition(location);
+    const handleKaveriRadioChange = () => {
+        setIsKaveriRadioSelected(true);
     };
 
-    const geocodeLocation = (location) => {
-      geocoder.geocode({ location }, (results, status) => {
-        if (status === "OK" && results[0]) {
-          updateCoordinates(location, "Selected property on Google Map:", results[0].formatted_address);
+    const handleSqMetersChange = (e) => {
+        const value = e.target.value;
+        setKaveriSqMeters(value);
+        if (value) {
+            setKaveriSqFeet((value * 10.764).toFixed(2)); // Convert Sq.M to Sq.Ft
+        } else {
+            setKaveriSqFeet("");
         }
-      });
     };
 
-    const updateCoordinates = (location, resultType, address = "") => {
-      setResultType(`${resultType} ${address}`);
-      setLatitude(location.lat());
-      setLongitude(location.lng());
+    const handleSqFeetChange = (e) => {
+        const value = e.target.value;
+        setKaveriSqFeet(value);
+        if (value) {
+            setKaveriSqMeters((value / 10.764).toFixed(2)); // Convert Sq.Ft to Sq.M
+        } else {
+            setKaveriSqMeters("");
+        }
     };
 
-    initMap();
-  }, []);
+    //Map
+    const mapRef = useRef(null);
+    const searchInputRef = useRef(null);
+    const [latitude, setLatitude] = useState("N/A");
+    const [longitude, setLongitude] = useState("N/A");
+    const [resultType, setResultType] = useState("Location Data :");
+    const markerRef = useRef(null);
+    let map, autocomplete, geocoder;
 
-const { t, i18n } = useTranslation();
+    useEffect(() => {
+        const initMap = () => {
+            const center = { lat: 13.0074, lng: 77.5688 };
+            map = new window.google.maps.Map(mapRef.current, {
+                center,
+                zoom: 17,
+                mapTypeId: "hybrid",
+            });
+
+            markerRef.current = new window.google.maps.Marker({
+                map,
+                draggable: true,
+            });
+
+            autocomplete = new window.google.maps.places.Autocomplete(searchInputRef.current, {
+                componentRestrictions: { country: "in" },
+            });
+
+            autocomplete.addListener("place_changed", () => {
+                const place = autocomplete.getPlace();
+                if (!place.geometry) return;
+
+                map.setCenter(place.geometry.location);
+                markerRef.current.setPosition(place.geometry.location);
+                updateCoordinates(place.geometry.location, "Location Data :", place.formatted_address);
+            });
+
+            geocoder = new window.google.maps.Geocoder();
+
+            map.addListener("click", (event) => {
+                placeMarker(event.latLng);
+                geocodeLocation(event.latLng);
+            });
+
+            markerRef.current.addListener("dragend", (event) => {
+                geocodeLocation(event.latLng);
+            });
+        };
+
+        const placeMarker = (location) => {
+            markerRef.current.setPosition(location);
+        };
+
+        const geocodeLocation = (location) => {
+            geocoder.geocode({ location }, (results, status) => {
+                if (status === "OK" && results[0]) {
+                    updateCoordinates(location, "Location Data :", results[0].formatted_address);
+                }
+            });
+        };
+
+        const updateCoordinates = (location, resultType, address = "") => {
+            setResultType(`${resultType} ${address}`);
+            setLatitude(location.lat());
+            setLongitude(location.lng());
+        };
+
+        initMap();
+    }, []);
+
+    const { t, i18n } = useTranslation();
 
 
     //validation for EPID
@@ -147,17 +182,390 @@ const { t, i18n } = useTranslation();
         const value = e.target.value.replace(/\D/g, ''); // Remove any non-numeric characters
         setWardNo(value);
     }
-     //validation for old ward no
-     const handleoldwardNoChange = (e) => {
+    //validation for old ward no
+    const handleoldwardNoChange = (e) => {
         const value = e.target.value.replace(/\D/g, ''); // Remove any non-numeric characters
         setOldWardNo(value);
     }
     //validation for Old property no
-    const handleoldpropertyNoChange = (e) =>{
-        const value = e.target.value.replace(/\D/g, ''); // Remove any non-numeric characters
+    const handleoldpropertyNoChange = (e) => {
+        let value = e.target.value.toUpperCase(); // Convert to uppercase
+        if (value.startsWith("TEL")) {
+            value = "TEL" + value.slice(3).replace(/\D/g, ''); // Keep "TEL" and allow only numbers after it
+        } else {
+            value = value.replace(/\D/g, ''); // Remove non-numeric characters
+        }
         setOldPropertyNo(value);
-    }
- 
+    };
+
+    //validation for Old property no
+    const handleSasNoChange = (e) => {
+        let value = e.target.value.replace(/\D/g, ''); // Remove non-numeric characters
+
+        // Validate length (10 digits), should not be all zeros, and should not start with zero
+        if (value.length > 10) {
+            value = value.slice(0, 10); // Restrict to 10 digits
+        }
+
+        let errorMessage = '';
+
+        if (/^0/.test(value)) {
+            errorMessage = t('translation.validation.verifyData.sas_swz');
+        } else if (/^0+$/.test(value)) {
+            errorMessage = t('translation.validation.verifyData.sas_all_zeros'); // Add translation key for this message
+        } else if (value.length !== 10) {
+            errorMessage = t('translation.validation.verifyData.sas_ten_digits'); // Add translation key for this message
+        }
+
+        setErrors((prevErrors) => ({ ...prevErrors, sasNo: errorMessage }));
+        setSASNo(value);
+        setIsSasValid(false); // Reset validation when input changes
+    };
+    //verify Data btn function
+    const handleVerifySAS = () => {
+        let errorMessage = '';
+
+        if (!sasNo) {
+            errorMessage = t('translation.validation.verifyData.sas_required'); // Add a translation key for this
+        } else if (sasNo.length !== 10) {
+            errorMessage = t('translation.validation.verifyData.sas_ten_digits');
+        } else if (/^0/.test(sasNo)) {
+            errorMessage = t('translation.validation.verifyData.sas_swz');
+        } else if (/^0+$/.test(sasNo)) {
+            errorMessage = t('translation.validation.verifyData.sas_all_zeros');
+        }
+
+        if (errorMessage) {
+            setErrors((prevErrors) => ({ ...prevErrors, sasNo: errorMessage }));
+            setIsSasValid(false); // Hide table
+        } else {
+            setErrors((prevErrors) => ({ ...prevErrors, sasNo: '' }));
+            setIsSasValid(true); // Show table
+        }
+    };
+    //Edit button for data as per BBMP register
+    const [isBBMPregister_Editing, setIsBBMPregister_Editing] = useState(false);
+    const handleEditClick1 = () => {
+        setIsBBMPregister_Editing(true);
+    };
+
+    const [showModal, setShowModal] = useState(false);
+    const [showRegistrationModal, setShowRegistrationModal] = useState(false);
+
+    const handleShow = (event) => {
+        event.preventDefault(); // Prevents navigation
+        setShowModal(true);
+    };
+    const handleRegistrationModalShow = (event) => {
+        event.preventDefault(); // Prevents navigation
+        setShowRegistrationModal(true);
+    };
+
+    const handleClose = () => {
+        setShowModal(false);
+    };
+
+    const handleRegistrationModalClose = () => {
+        setShowRegistrationModal(false);
+    };
+
+    const handleDeedInfoRadioChange = (event) => {
+        setSelectedDeedInfoOption(event.target.value);
+        setShowScheduleTable(true); // Only show the schedule table when the radio is selected
+    };
+    //saving Deed information
+    const handleSaveDeedInfo = () => {
+        if (!selectedSchedule) {
+            setErrorSavingDeedInfo("Please select a schedule.");
+            return;
+        }
+        if (!selectedUnit) {
+            setErrorSavingDeedInfo("Please select a unit of area (Sq.Ft. or Sq.Mt.).");
+            return;
+        }
+        setShowSaveDeedInformationTable(true); // Show the second table after validation
+        setShowDeedInfo(false); // Hide the table and content below
+    };
+    const handleScheduleChange = (event) => {
+        setSelectedSchedule(event.target.value);
+        setErrorSavingDeedInfo(""); // Clear error when a selection is made
+    };
+    const handleUnitChange = (event) => {
+        setSelectedUnit(event.target.value);
+        setErrorSavingDeedInfo(""); // Clear error when a selection is made
+    };
+
+
+    //Kaveri Document Data table starts
+    const KaveriDocumentData = () => {
+        return (
+            <div>
+                {showDeedInfo && (
+                    <>
+
+                        <table
+                            style={{
+                                width: '100%',
+                                borderCollapse: 'collapse',
+                                textAlign: 'center',
+                                border: '1px solid black'
+                            }}
+                        >
+                            <thead>
+                                <tr style={{ border: '1px solid black' }}>
+                                    <th colSpan="4" style={{ backgroundColor: '#ddd', padding: '10px', border: '1px solid black' }}>
+                                        {t('translation.kaveriData.KaveriDocumentData.title')}
+                                    </th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr style={{ border: '1px solid black' }}>
+                                    <td style={{ border: '1px solid black' }}>{t('translation.kaveriData.KaveriDocumentData.table.finalregistrationNo')}</td>
+                                    <td style={{ border: '1px solid black' }}>RMN-1-00062-2020-21</td>
+                                    <td style={{ border: '1px solid black' }}>{t('translation.kaveriData.KaveriDocumentData.table.natureDeed')}</td>
+                                    <td style={{ border: '1px solid black' }}>Sale</td>
+                                </tr>
+                                <tr style={{ border: '1px solid black' }}>
+                                    <td style={{ border: '1px solid black' }}>{t('translation.kaveriData.KaveriDocumentData.table.applicationNo')}</td>
+                                    <td style={{ border: '1px solid black' }}></td>
+                                    <td style={{ border: '1px solid black' }}>{t('translation.kaveriData.KaveriDocumentData.table.registrationDate')}</td>
+                                    <td style={{ border: '1px solid black' }}>2020-05-06T13:30:15</td>
+                                </tr>
+                                <tr style={{ border: '1px solid black' }}>
+                                    <th colSpan="4" style={{ backgroundColor: '#ddd', padding: '10px', border: '1px solid black' }}>
+                                        {t('translation.kaveriData.KaveriDocumentData.table.propertyDetails')}
+                                    </th>
+                                </tr>
+                                <tr style={{ border: '1px solid black' }}>
+                                    <td style={{ border: '1px solid black' }}>{t('translation.kaveriData.KaveriDocumentData.table.propertyID')}</td>
+                                    <td style={{ border: '1px solid black' }}>485456</td>
+                                    <td style={{ border: '1px solid black' }}>{t('translation.kaveriData.KaveriDocumentData.table.documentID')}</td>
+                                    <td style={{ border: '1px solid black' }}>235946</td>
+                                </tr>
+                                <tr style={{ border: '1px solid black' }}>
+                                    <td style={{ border: '1px solid black' }}>{t('translation.kaveriData.KaveriDocumentData.table.village')}</td>
+                                    <td style={{ border: '1px solid black' }}>Vinayaka Nagara 1st Stage</td>
+                                    <td style={{ border: '1px solid black' }}>{t('translation.kaveriData.KaveriDocumentData.table.sroName')}</td>
+                                    <td style={{ border: '1px solid black' }}>Ramanagara</td>
+                                </tr>
+                                <tr style={{ border: '1px solid black' }}>
+                                    <th colSpan="4" style={{ backgroundColor: '#ddd', padding: '10px', border: '1px solid black' }}>
+                                        {t('translation.kaveriData.KaveriDocumentData.table.schedulerDetails')}
+                                    </th>
+                                </tr>
+                                <tr style={{ border: '1px solid black' }}>
+                                    <td style={{ border: '1px solid black' }}>{t('translation.kaveriData.KaveriDocumentData.table.scheduleType')}</td>
+                                    <td style={{ border: '1px solid black' }}>1A</td>
+                                    <td style={{ border: '1px solid black' }}>{t('translation.kaveriData.KaveriDocumentData.table.propertyArea')}</td>
+                                    <td style={{ border: '1px solid black' }}>111.48</td>
+                                </tr>
+                                <tr style={{ border: '1px solid black' }}>
+                                    <td style={{ border: '1px solid black' }}>{t('translation.kaveriData.KaveriDocumentData.table.scheduleDesc')}</td>
+                                    <td colSpan="3" style={{ border: '1px solid black' }}>
+                                        ಚಾಮುಂಡಿಪುರ ವಾಡ್ ನಂ 1 ನಂ. ನ: ಇ-ಆರ್ ಸಿ:1-2-514-83 ಭೂಮೇಶ್ವರಿಯ ಬಾತಾ ಸಂಖ್ಯೆ 747/649/304/577/11,
+                                        ಸ್ಟೀಟ್ ನಂ. 11 ವಿನಾಯಕನಗರ 2ನೇ ಹಂತ, ವಾಡ್ ನಂ. 01, ರಾಮನಗರ ಟೌನ್. ಪ್ಲಾಟ್ ಪ್ರಮಾಣ 12.192024 ಮೀ
+                                        ಉತ್ತರ ದಕ್ಷಿಣ 9.144018 ಅಡಿ, 111.4836 ಚದರ ಮೀಟರ್‌ಗಳು ಅಂದಾಗಿ 40 x 30 ಅಡಿಗಳ ಒಟ್ಟು 1200 ಚದರ
+                                        ಅಡಿಗಳ ಖಾಲಿ ನಿವೇಶನ
+                                    </td>
+                                </tr>
+                                <tr style={{ border: '1px solid black' }}>
+                                    <th colSpan="4" style={{ backgroundColor: '#ddd', padding: '10px', border: '1px solid black' }}>
+                                        {t('translation.kaveriData.KaveriDocumentData.table.documentOwnerData')}
+                                    </th>
+                                </tr>
+                                <tr style={{ border: '1px solid black' }}>
+                                    <td style={{ border: '1px solid black' }}>{t('translation.kaveriData.KaveriDocumentData.table.partyName')}</td>
+                                    <td style={{ border: '1px solid black' }}>ಕಂಪಣ್ಣ</td>
+                                    <td style={{ border: '1px solid black' }}>{t('translation.kaveriData.KaveriDocumentData.table.idproofType')}</td>
+                                    <td style={{ border: '1px solid black' }}>ಸಂಗಬಸವನದೊಡ್ಡಿ, ಕಸಬಾ ಹೋಬಳಿ, ರಾಮನಗರ ತಾ.</td>
+                                </tr>
+                                <tr style={{ border: '1px solid black' }}>
+                                    <td style={{ border: '1px solid black' }}>{t('translation.kaveriData.KaveriDocumentData.table.idproofNumber')}</td>
+                                    <td style={{ border: '1px solid black' }}></td>
+                                    <td style={{ border: '1px solid black' }}>{t('translation.kaveriData.KaveriDocumentData.table.partyAddress')}</td>
+                                    <td style={{ border: '1px solid black' }}></td>
+                                </tr>
+                                <tr style={{ border: '1px solid black' }}>
+                                    <td style={{ border: '1px solid black' }}>{t('translation.kaveriData.KaveriDocumentData.table.partyType')}</td>
+                                    <td style={{ border: '1px solid black' }}>Executant/Giver</td>
+                                    <td style={{ border: '1px solid black' }}>{t('translation.kaveriData.KaveriDocumentData.table.admissionDate')}</td>
+                                    <td style={{ border: '1px solid black' }}></td>
+                                </tr>
+                            </tbody>
+                        </table>
+                        <br />
+                        <h5>{t('translation.kaveriData.KaveriDocumentData.table.deedInformation')}</h5>
+                        <div className="overflow-x-auto">
+                            <table className="w-full border-collapse border border-gray-300">
+                                <thead>
+                                    <tr className="bg-gray-600 text-center" style={{ backgroundColor: '#ddd' }}>
+                                        <th className="border border-gray-300 px-6 py-3">{t('translation.kaveriData.KaveriDocumentData.table.selectProperty')}</th>
+                                        <th className="border border-gray-300 px-6 py-3">{t('translation.kaveriData.KaveriDocumentData.table.propertyID')}	</th>
+                                        <th className="border border-gray-300 px-6 py-3">{t('translation.kaveriData.KaveriDocumentData.table.documentID')}</th>
+                                        <th className="border border-gray-300 px-6 py-3">{t('translation.kaveriData.KaveriDocumentData.table.village')}</th>
+                                        <th className="border border-gray-300 px-6 py-3">{t('translation.kaveriData.KaveriDocumentData.table.sroName')}</th>
+                                        <th className="border border-gray-300 px-6 py-3">{t('translation.kaveriData.KaveriDocumentData.table.propertyType')}</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr className="text-center">
+                                        <td className="border border-gray-300 px-6 py-3">
+                                            <input
+                                                className="form-check-input radioStyle"
+                                                type="radio"
+                                                name="property"
+                                                value="property"  // Ensure each radio button has a value
+                                                checked={selectedDeedInfoOption === "property"}  // Controlled component
+                                                onChange={handleDeedInfoRadioChange}
+                                            />
+                                        </td>
+                                        <td className="border border-gray-300 px-6 py-3">485456</td>
+                                        <td className="border border-gray-300 px-6 py-3">235946</td>
+                                        <td className="border border-gray-300 px-6 py-3">Vinayaka Nagara 1st Stage</td>
+                                        <td className="border border-gray-300 px-6 py-3">Ramanagara</td>
+                                        <td className="border border-gray-300 px-6 py-3">Non-Agriculture</td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                        <br />
+                        {showScheduleTable && (
+                            <>
+                                <h5>{t('translation.kaveriData.KaveriDocumentData.table.scheduleInformation')}</h5>
+                                <div className="overflow-x-auto">
+                                    <table className="w-full border-collapse border border-gray-300">
+                                        <thead>
+                                            <tr className="bg-gray-600 text-center" style={{ backgroundColor: '#ddd' }}>
+                                                <th className="border border-gray-300 px-6 py-3">{t('translation.kaveriData.KaveriDocumentData.table.selectschedule')}</th>
+                                                <th className="border border-gray-300 px-6 py-3">{t('translation.kaveriData.KaveriDocumentData.table.scheduleType')}</th>
+                                                <th className="border border-gray-300 px-6 py-3">{t('translation.kaveriData.KaveriDocumentData.table.scheduleDesc')}</th>
+                                                <th className="border border-gray-300 px-6 py-3">{t('translation.kaveriData.KaveriDocumentData.table.totalarea')}</th>
+                                                <th className="border border-gray-300 px-6 py-3">{t('translation.kaveriData.KaveriDocumentData.table.unitOfArea')}</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            <tr className="text-center">
+                                                <td className="border border-gray-300 px-6 py-3">
+                                                    <input
+                                                        className="radioStyle"
+                                                        type="radio"
+                                                        name="schedule"
+                                                        value="schedule"
+                                                        checked={selectedSchedule === "schedule"}
+                                                        onChange={handleScheduleChange}
+                                                    /></td>
+                                                <td className="border border-gray-300 px-6 py-3">485456</td>
+                                                <td className="border border-gray-300 px-6 py-3">235946</td>
+                                                <td className="border border-gray-300 px-6 py-3">Vinayaka Nagara 1st Stage</td>
+                                                <td className="border border-gray-300 px-6 py-3">
+                                                    <div className="form-check">
+                                                        <input
+                                                            className="form-check-input radioStyle"
+                                                            type="radio"
+                                                            name="unit"
+                                                            value="sqft"
+                                                            checked={selectedUnit === "sqft"}
+                                                            onChange={handleUnitChange}
+                                                        />
+                                                        <label className="form-check-label">{t('translation.kaveriData.KaveriDocumentData.table.sqft')}</label>
+                                                    </div>
+                                                    <div className="form-check">
+                                                        <input
+                                                            className="form-check-input radioStyle"
+                                                            type="radio"
+                                                            name="unit"
+                                                            value="sqmt"
+                                                            checked={selectedUnit === "sqmt"}
+                                                            onChange={handleUnitChange}
+                                                        />
+                                                        <label className="form-check-label">{t('translation.kaveriData.KaveriDocumentData.table.sqmt')}</label>
+                                                    </div>
+                                                </td>
+                                            </tr>
+                                        </tbody>
+                                    </table>
+                                    {errorSavingDeedInfo && <p className="text-red-500  mt-2" style={{ color: 'red' }}>{errorSavingDeedInfo}</p>}
+                                    <br />
+                                    <div className="col-md-4 col-lg-4 mt-2">
+                                        <div className="form-group">
+                                            <button type="submit" onClick={handleSaveDeedInfo} className="btn btn_color btn-block ">{t('translation.buttons.saveDeedInfo')}</button>
+                                        </div>
+                                    </div>
+                                </div>
+                            </>
+                        )}
+
+
+                    </>
+                )}
+            </div>
+
+        );
+    };
+
+
+    const handledeepNoChange = (e) => {
+        let value = e.target.value.replace(/\D/g, ''); // Remove non-numeric characters
+        setKaverideedno(value);
+        // Validate length (10 digits), should not be all zeros, and should not start with zero
+        if (value.length > 10) {
+            value = value.slice(0, 10); // Restrict to 10 digits
+        }
+
+        let errorMessage = '';
+
+        if (!value) {
+            errorMessage = 'Register number is required';
+        } else if (value.length !== 10) {
+            errorMessage = 'Register number must be exactly 10 digits';
+        } else if (/^0/.test(value)) {
+            errorMessage = 'Register number cannot start with zero';
+        } else if (/^0+$/.test(value)) {
+            errorMessage = 'Register number cannot be all zeros';
+        }
+
+        setErrors((prevErrors) => ({ ...prevErrors, kaverideedno: errorMessage }));
+    };
+
+    //verify Data btn function
+    const handleVerifyDeedNo = () => {
+        let errorMessage = '';
+
+        if (!kaverideedno) {
+            errorMessage = 'Register number is required'; // Add a translation key for this
+        } else if (kaverideedno.length !== 10) {
+            errorMessage = 'Register number must be exactly 10 digits';
+        } else if (/^0/.test(kaverideedno)) {
+            errorMessage = 'Register number cannot start with zero';
+        } else if (/^0+$/.test(kaverideedno)) {
+            errorMessage = 'Register number cannot be all zeros';
+        }
+
+        if (errorMessage) {
+            setErrors((prevErrors) => ({ ...prevErrors, kaverideedno: errorMessage }));
+            setIsSasValid(false); // Hide table
+        } else {
+            setErrors((prevErrors) => ({ ...prevErrors, kaverideedno: '' }));
+            setShowKaveriDocumentData(true);
+        }
+    };
+
+    const handleKaveriDocumentTypeChange = (event) => {
+        const selectedValue = event.target.value;
+        setKaveri_DocumentType(selectedValue);
+
+        // Show Document Details only if "Other" (26) is selected
+        setShowDocumentDetails(selectedValue === "26");
+    };
+
+    const handleDocumentDateChange = (e) => {
+        const selectedDate = e.target.value;
+        setdocumentDate(selectedDate);
+    };
+    const handleSaveRegistrationInfo = () => {
+        setShowregistrationContent(true); // show content after save is clicked
+    };
+
     return (
         <DashboardLayout>
             <div>
@@ -198,6 +606,7 @@ const { t, i18n } = useTranslation();
                                                                     onChange={handleEPIDChange}
                                                                     value={ePID}
                                                                     maxLength={10}
+                                                                    disabled={true} // Always disabled
                                                                 />
                                                                 <span
                                                                     className="input-group-text"
@@ -223,6 +632,7 @@ const { t, i18n } = useTranslation();
                                                                     name="example-text-input"
                                                                     placeholder={t('translation.district')}
                                                                     value={district}
+                                                                    disabled={true} // Always disabled
                                                                 />
                                                                 <span
                                                                     className="input-group-text"
@@ -248,6 +658,7 @@ const { t, i18n } = useTranslation();
                                                                     name="example-text-input"
                                                                     placeholder={t('translation.city')}
                                                                     value={city}
+                                                                    disabled={true} // Always disabled
                                                                 />
                                                                 <span
                                                                     className="input-group-text"
@@ -274,6 +685,7 @@ const { t, i18n } = useTranslation();
                                                                     placeholder={t('translation.wardNumber')}
                                                                     value={wardNo}
                                                                     onChange={handlewardNoChange}
+                                                                    disabled={true} // Always disabled
                                                                 />
                                                                 <span
                                                                     className="input-group-text"
@@ -299,6 +711,7 @@ const { t, i18n } = useTranslation();
                                                                     name="example-text-input"
                                                                     placeholder={t('translation.wardName')}
                                                                     value={wardName}
+                                                                    disabled={true} // Always disabled
                                                                 />
                                                                 <span
                                                                     className="input-group-text"
@@ -313,7 +726,7 @@ const { t, i18n } = useTranslation();
                                                     </div>
                                                     {/* ward name ends */}
 
-                                                    {/* Old ward no starts */}  
+                                                    {/* Old ward no starts */}
                                                     <div className="col-md-6 col-lg-4 col-12">
                                                         <div className="form-group">
                                                             <label className="form-label">{t('translation.oldWardNo')}</label>
@@ -325,6 +738,7 @@ const { t, i18n } = useTranslation();
                                                                     placeholder={t('translation.oldWardNo')}
                                                                     value={oldwardNo}
                                                                     onChange={handleoldwardNoChange}
+                                                                    disabled={true} // Always disabled
                                                                 />
                                                                 <span
                                                                     className="input-group-text"
@@ -342,16 +756,22 @@ const { t, i18n } = useTranslation();
                                                     {/* Old property no starts */}
                                                     <div className="col-md-6 col-lg-4 col-12">
                                                         <div className="form-group">
-                                                            <label className="form-label">{t('translation.oldPropertyNo')} <span style={{color:'red'}}>*</span></label>
+                                                            <label className="form-label">{t('translation.oldPropertyNo')}</label>
                                                             <div className="input-group">
                                                                 <input
-                                                                    type="tel"
+                                                                    type="text" // Use "text" instead of "tel" to avoid conflicts
                                                                     className="form-control"
                                                                     name="example-text-input"
                                                                     placeholder={t('translation.oldPropertyNo')}
                                                                     value={oldpropertyNo}
                                                                     maxLength={10}
-                                                                    onchange={handleoldpropertyNoChange}
+                                                                    onChange={handleoldpropertyNoChange} // Corrected event handler
+                                                                    disabled={!isBBMPregister_Editing} // Editable when isEditing is true
+                                                                    style={{
+                                                                        backgroundColor: isBBMPregister_Editing ? "#e6f7ff" : "",
+                                                                        border: isBBMPregister_Editing ? "2px solid #0077b6" : "1px solid #ccc",
+                                                                        transition: "all 0.3s ease-in-out"
+                                                                    }}
                                                                 />
                                                                 <span
                                                                     className="input-group-text"
@@ -362,9 +782,9 @@ const { t, i18n } = useTranslation();
                                                                     <i className="fas fa-info-circle text-secondary"></i>
                                                                 </span>
                                                             </div>
-
                                                         </div>
                                                     </div>
+
                                                     {/* Old property no ends */}
 
                                                     {/* SAS application no starts */}
@@ -373,12 +793,13 @@ const { t, i18n } = useTranslation();
                                                             <label className="form-label">{t('translation.SASBaseApplicationNo')} </label>
                                                             <div className="input-group">
                                                                 <input
-                                                                    type="tel" 
+                                                                    type="tel"
                                                                     maxLength={10}
                                                                     className="form-control"
                                                                     name="example-text-input"
                                                                     placeholder={t('translation.SASBaseApplicationNo')}
-                                                                    value={sasNo}
+                                                                    value={fetchsasNo}
+                                                                    disabled={true} // Always disabled
                                                                 />
                                                                 <span
                                                                     className="input-group-text"
@@ -391,7 +812,7 @@ const { t, i18n } = useTranslation();
                                                             </div>
                                                         </div>
                                                     </div>
-                                                     {/* SAS application no ends */}
+                                                    {/* SAS application no ends */}
 
                                                     {/* Property address starts */}
                                                     <div className="col-md-6 col-lg-4 col-12">
@@ -404,6 +825,7 @@ const { t, i18n } = useTranslation();
                                                                     name="example-text-input"
                                                                     placeholder={t('translation.PropertyAddress')}
                                                                     value={propertyAddress}
+                                                                    disabled={true} // Always disabled
                                                                 />
                                                                 <span
                                                                     className="input-group-text"
@@ -417,22 +839,23 @@ const { t, i18n } = useTranslation();
 
                                                         </div>
                                                     </div>
-                                                     {/* Property address ends */}
+                                                    {/* Property address ends */}
 
-                                                      {/* Property type starts */}
+                                                    {/* Property type starts */}
                                                     <div className="col-md-6 col-lg-4">
                                                         <div className="form-group">
                                                             <label className="form-label">{t('translation.PropertyType')}</label>
-                                                            <select className="form-control" name="propertyAddress" value={propertyType}>
+                                                            <select className="form-control" name="propertyAddress" value={propertyType}
+                                                                disabled={true}>
                                                                 <option value="1">{t('translation.data_as_per_bbmp_Register.propertyType.option1')}</option>
                                                                 <option value="2">{t('translation.data_as_per_bbmp_Register.propertyType.option2')}</option>
                                                                 <option value="3">{t('translation.data_as_per_bbmp_Register.propertyType.option3')}</option>
                                                             </select>
                                                         </div>
                                                     </div>
-                                                     {/* Property type ends */}
+                                                    {/* Property type ends */}
 
-                                                      {/* Property category starts */}
+                                                    {/* Property category starts */}
                                                     <div className="col-md-6 col-lg-4">
                                                         <div className="form-group">
                                                             <label className="form-label">{t('translation.Property Category(A/B)')}</label>
@@ -443,6 +866,7 @@ const { t, i18n } = useTranslation();
                                                                     name="example-text-input"
                                                                     placeholder={t('translation.Property Category(A/B)')}
                                                                     value={propertyCategory}
+                                                                    disabled={true} // Always disabled
                                                                 />
                                                                 <span
                                                                     className="input-group-text"
@@ -456,20 +880,31 @@ const { t, i18n } = useTranslation();
 
                                                         </div>
                                                     </div>
-                                                     {/* Property category ends */}
+                                                    {/* Property category ends */}
 
-                                                     {/* street starts */}
+                                                    {/* street starts */}
                                                     <div className="col-md-6 col-lg-4">
                                                         <div className="form-group">
                                                             <label className="form-label">{t('translation.streetName')}</label>
                                                             <div className="input-group">
+
+
                                                                 <input
                                                                     type="text"
                                                                     className="form-control"
                                                                     name="example-text-input"
                                                                     placeholder={t('translation.streetName')}
                                                                     value={streetName}
+                                                                    onChange={(e) => setStreetName(e.target.value)}
+                                                                    disabled={!isBBMPregister_Editing}
+                                                                    style={{
+                                                                        backgroundColor: isBBMPregister_Editing ? "#e6f7ff" : "",
+                                                                        border: isBBMPregister_Editing ? "2px solid #0077b6" : "1px solid #ccc",
+                                                                        transition: "all 0.3s ease-in-out"
+                                                                    }}
                                                                 />
+
+
                                                                 <span
                                                                     className="input-group-text"
                                                                     data-bs-toggle="tooltip"
@@ -484,7 +919,7 @@ const { t, i18n } = useTranslation();
                                                     </div>
 
                                                     {/* Table starts */}
-                                                    <div className="col-md-12 col-lg-12 w-full" >
+                                                    <div className="col-md-12 col-lg-12 w-full" hidden >
 
                                                         <div className="overflow-x-auto w-full">
                                                             <table className="w-full min-w-full border-collapse border border-gray-300" width={890}>
@@ -526,9 +961,9 @@ const { t, i18n } = useTranslation();
                                                 <hr style={{ border: '1px dashed black' }} />
 
                                                 <div className="row">
-                                                    <div className="col-md-6 col-lg-4">
+                                                    <div className="col-md-6 col-lg-3">
                                                         <div className="form-group">
-                                                            <label className="form-label">{t('translation.PropertyType')} <span style={{color:'red'}}>*</span></label>
+                                                            <label className="form-label">{t('translation.PropertyType')} <span style={{ color: 'red' }}>*</span></label>
                                                             <select className="form-control" name="propertyAddress">
                                                                 <option value="1">{t('translation.data_as_per_bbmp_Register.propertyType.option1')}</option>
                                                                 <option value="2">{t('translation.data_as_per_bbmp_Register.propertyType.option2')}</option>
@@ -537,71 +972,129 @@ const { t, i18n } = useTranslation();
                                                         </div>
                                                     </div>
 
-                                                    <div className="col-md-6 col-lg-4">
+                                                    <div className="col-md-6 col-lg-6">
                                                         <div className="form-group">
-                                                            <label className="form-label">{t('translation.data_as_per_bbmp_Register.input.sasapplicationno1')} <span style={{color:'red'}}>*</span>
-                                                            &nbsp;
-                                                            <a href="/" color="primary">{t("translation.View Sample")}</a></label>
+                                                            <label className="form-label">
+                                                                {t('translation.data_as_per_bbmp_Register.input.sasapplicationno1')}
+                                                                <span style={{ color: 'red' }}>*</span>
+                                                            </label>
                                                             <input
                                                                 type="tel"
                                                                 className="form-control"
-                                                                name="example-text-input"
+                                                                name="sasNo"
                                                                 placeholder={t('translation.SASBaseApplicationNo')}
+                                                                maxLength={10}
+                                                                value={sasNo}
+                                                                onChange={handleSasNoChange}  // Fixed: changed 'onchange' to 'onChange'
                                                             />
+                                                            {errors.sasNo && <small className="text-danger">{errors.sasNo}</small>}  {/* Display error message */}
                                                         </div>
                                                     </div>
-                                                    <div className="col-md-6 col-lg-4 mt-5">
-                                                        <div className="form-group">
-                                                            <button type="submit" className="btn btn_color btn-block ml-auto">{t('translation.VerifySASApplicationNumber')}</button>
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                                <div className="row">
-                                                    <div className="col-md-12 col-lg-12 ">
-                                                        {/* Table starts */}
-                                                        <div className="overflow-x-auto">
-                                                            <table className="w-full border-collapse border border-gray-300">
-                                                                <thead>
-                                                                    <tr className="bg-gray-200 text-center">
-                                                                        <th className="border border-gray-300 px-6 py-3">Application Number</th>
-                                                                        <th className="border border-gray-300 px-6 py-3">PID</th>
-                                                                        <th className="border border-gray-300 px-6 py-3">Khatha Survey No</th>
-                                                                        <th className="border border-gray-300 px-6 py-3">Owner Name</th>
-                                                                        <th className="border border-gray-300 px-6 py-3">Property Address</th>
-                                                                        <th className="border border-gray-300 px-6 py-3">Property Nature</th>
-                                                                        <th className="border border-gray-300 px-6 py-3">Site Area</th>
-                                                                        <th className="border border-gray-300 px-6 py-3">Built-Up Area</th>
-                                                                    </tr>
-                                                                </thead>
-                                                                <tbody>
-                                                                    <tr className="text-center">
-                                                                        <td className="border border-gray-300 px-6 py-3">ApplicationNumber</td>
-                                                                        <td className="border border-gray-300 px-6 py-3">PID</td>
-                                                                        <td className="border border-gray-300 px-6 py-3">KHATHASURVEYNO</td>
-                                                                        <td className="border border-gray-300 px-6 py-3">OwnerName</td>
-                                                                        <td className="border border-gray-300 px-6 py-3">PropertyAddress</td>
-                                                                        <td className="border border-gray-300 px-6 py-3">PropertyNature</td>
-                                                                        <td className="border border-gray-300 px-6 py-3">SiteArea</td>
-                                                                        <td className="border border-gray-300 px-6 py-3">BuiltUpArea</td>
-                                                                    </tr>
-                                                                </tbody>
-                                                            </table>
-                                                        </div>
 
-                                                        {/* Table ends */}
-                                                    </div>
-                                                    <div className="col-md-3 col-lg-3 mt-5"></div>
-                                                    <div className="col-md-3 col-lg-3 mt-5">
+                                                    <div className="col-md-6 col-lg-3 col-12">
                                                         <div className="form-group">
-                                                            <button type="submit" className="btn btn_color btn-block ml-auto">Edit</button>
-                                                        </div>
-                                                    </div>
-                                                    <div className="col-md-3 col-lg-3 mt-5">
-                                                        <div className="form-group">
-                                                            <button type="submit" className="btn btn_color btn-block ml-auto">Save</button>
+                                                            <a href="/" onClick={handleShow} style={{ color: "blue", cursor: "pointer" }}>{t("translation.View Sample")}</a>
+                                                            <button type="submit" onClick={handleVerifySAS} className="btn btn_color btn-block ml-auto">{t('translation.VerifySASApplicationNumber')}</button>
                                                         </div>
                                                     </div>
                                                 </div>
+                                                <div>
+                                                    {/* Custom Modal */}
+                                                    {showModal && (
+                                                        <div className="modal-overlay">
+                                                            <div className="modal-content">
+                                                                <span className="close-btn" onClick={handleClose}>&times;</span>
+                                                                <h2>{t('translation.modal.sasapplicationno')}</h2>
+
+                                                                <img src={SAS_Sample} alt="Sample" style={{ maxWidth: "100%", height: "auto" }} />
+                                                            </div>
+                                                        </div>
+                                                    )}
+
+                                                    {/* Modal CSS */}
+                                                    <style>{`
+                                                        .modal-overlay {
+                                                        position: fixed;
+                                                        top: 0;
+                                                        left: 0;
+                                                        width: 100%;
+                                                        height: 100%;
+                                                        background: rgba(0, 0, 0, 0.5);
+                                                        display: flex;
+                                                        justify-content: center;
+                                                        align-items: center;
+                                                        z-index: 1000;
+                                                        }
+                                                        .modal-content {
+                                                        background: white;
+                                                        padding: 20px;
+                                                        width: 80%; /* Increased width */
+                                                        max-width: 900px; /* Large size modal */
+                                                        border-radius: 8px;
+                                                        box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+                                                        text-align: center;
+                                                        position: relative;
+                                                        }
+                                                        .close-btn {
+                                                        position: absolute;
+                                                        top: 10px;
+                                                        right: 15px;
+                                                        font-size: 24px;
+                                                        cursor: pointer;
+                                                        }
+                                                    `}</style>
+                                                </div>
+                                                {/* Conditionally render the table */}
+
+                                                <div className="row">
+                                                    {isSasValid && (
+                                                        <div className="col-md-12 col-lg-12 ">
+                                                            {/* Table starts */}
+                                                            <div className="overflow-x-auto">
+                                                                <table className="w-full border-collapse border border-gray-300">
+                                                                    <thead>
+                                                                        <tr className="bg-gray-200 text-center">
+                                                                            <th className="border border-gray-300 px-6 py-3">{t('translation.table.sas.sas_applicationno')}</th>
+                                                                            <th className="border border-gray-300 px-6 py-3">{t('translation.table.sas.epid')}</th>
+                                                                            <th className="border border-gray-300 px-6 py-3">{t('translation.table.sas.khataNo')}</th>
+                                                                            <th className="border border-gray-300 px-6 py-3">{t('translation.table.sas.name_khatedar')}</th>
+                                                                            <th className="border border-gray-300 px-6 py-3">{t('translation.table.sas.address')}</th>
+                                                                            <th className="border border-gray-300 px-6 py-3">{t('translation.table.sas.type')}</th>
+                                                                            <th className="border border-gray-300 px-6 py-3">{t('translation.table.sas.sitearea')}</th>
+                                                                            <th className="border border-gray-300 px-6 py-3">{t('translation.table.sas.builduparea')}</th>
+                                                                        </tr>
+                                                                    </thead>
+                                                                    <tbody>
+                                                                        <tr className="text-center">
+                                                                            <td className="border border-gray-300 px-6 py-3">ApplicationNumber</td>
+                                                                            <td className="border border-gray-300 px-6 py-3">PID</td>
+                                                                            <td className="border border-gray-300 px-6 py-3">KHATHASURVEYNO</td>
+                                                                            <td className="border border-gray-300 px-6 py-3">OwnerName</td>
+                                                                            <td className="border border-gray-300 px-6 py-3">PropertyAddress</td>
+                                                                            <td className="border border-gray-300 px-6 py-3">PropertyNature</td>
+                                                                            <td className="border border-gray-300 px-6 py-3">SiteArea</td>
+                                                                            <td className="border border-gray-300 px-6 py-3">BuiltUpArea</td>
+                                                                        </tr>
+                                                                    </tbody>
+                                                                </table>
+                                                            </div>
+
+                                                            {/* Table ends */}
+                                                        </div>
+                                                    )}
+                                                    <div className="col-md-3 col-lg-2 mt-5"></div>
+                                                    <div className="col-md-3 col-lg-4 mt-5">
+                                                        <div className="form-group">
+                                                            <button type="submit" onClick={handleEditClick1} className="btn btn_color btn-block ml-auto">{t('translation.buttons.edit')}</button>
+                                                        </div>
+                                                    </div>
+                                                    <div className="col-md-3 col-lg-4 mt-5">
+                                                        <div className="form-group">
+                                                            <button type="submit" className="btn btn_color btn-block ml-auto">{t('translation.buttons.save&next')}</button>
+                                                        </div>
+                                                    </div>
+                                                </div>
+
                                             </div>
                                         </div>
                                     </div>
@@ -630,206 +1123,445 @@ const { t, i18n } = useTranslation();
                                                 <div className="card-body">
                                                     <div className="row">
                                                         <div className="col-md-12 col-lg-12">
-                                                            <div className="form-group">
-                                                                <div className="custom-controls-stacked">
-                                                                    <label className="custom-control custom-radio custom-control-inline">
-                                                                        <input type="radio" className="custom-control-input" name="example-inline-radios" value="option1" checked />
-                                                                        <span className="custom-control-label">{t('translation.kaveriData.radio.option1')}</span>
-                                                                    </label>
+                                                            <div className="form-check">
+                                                                <input className="form-check-input radioStyle" type="radio" value="option1" checked={iskaverimainRadioSelected === "option1"}
+                                                                    onChange={handleKaveriMainRadioChange} />
+                                                                <label className="form-check-label">
+                                                                    {t("translation.kaveriData.radio.option1")}
+                                                                </label>
+                                                            </div>
+                                                            <div className="form-check">
+                                                                <input className="form-check-input radioStyle" type="radio" value="option2" checked={iskaverimainRadioSelected === "option2"}
+                                                                    onChange={handleKaveriMainRadioChange} />
+                                                                <label className="form-check-label">
+                                                                    {t("translation.kaveriData.radio.option2")}
+                                                                </label>
+                                                            </div>
+                                                            <div className="form-check">
+                                                                <input className="form-check-input radioStyle" type="radio" value="option3" checked={iskaverimainRadioSelected === "option3"}
+                                                                    onChange={handleKaveriMainRadioChange} />
+                                                                <label className="form-check-label">
+                                                                    {t("translation.kaveriData.radio.option3")}
+                                                                </label>
+                                                            </div>
+                                                        </div>
+                                                        {/* Show additional content only when Option 1 is selected */}
+                                                        {iskaverimainRadioSelected === "option1" && (
+                                                            <>
+                                                                <div className="col-md-12 col-lg-12">
+                                                                    <br />
+                                                                    <span>{t('translation.kaveriData.registrationNo')} <span style={{ color: 'red' }}>*</span>&nbsp;&nbsp;
+                                                                        <a href="/" onClick={handleRegistrationModalShow} style={{ color: "blue", cursor: "pointer" }}>{t("translation.View Sample")}</a></span>
                                                                 </div>
-                                                                <div className="custom-controls-stacked">
-                                                                    <label className="custom-control custom-radio custom-control-inline">
-                                                                        <input type="radio" className="custom-control-input" name="example-inline-radios" value="option2" />
-                                                                        <span className="custom-control-label">{t('translation.kaveriData.radio.option2')}</span>
-                                                                    </label>
+                                                                <div className="col-md-8 col-lg-8 mt-2">
+                                                                    <div className="form-group">
+                                                                        {/* <span className="form-label">{t('translation.kaveriData.registerNo')} </span> */}
+
+                                                                        <input
+                                                                            type="text"
+                                                                            className="form-control"
+                                                                            name="example-text-input"
+                                                                            placeholder={t('translation.kaveriData.placeholder')}
+                                                                            value={kaverideedno} maxLength={10}
+                                                                            onChange={handledeepNoChange} />
+                                                                        {errors.kaverideedno && <small className="text-danger">{errors.kaverideedno}</small>}
+                                                                    </div>
                                                                 </div>
-                                                                <div className="custom-controls-stacked">
-                                                                    <label className="custom-control custom-radio custom-control-inline">
-                                                                        <input type="radio" className="custom-control-input" name="example-inline-radios" value="option3" />
-                                                                        <span className="custom-control-label">{t('translation.kaveriData.radio.option3')}</span>
-                                                                    </label>
+                                                                <div className="col-md-4 col-lg-4 mt-2">
+                                                                    <div className="form-group">
+
+                                                                        <button type="submit" onClick={handleVerifyDeedNo} className="btn btn_color btn-block ">{t('translation.buttons.getKaveriData')}</button>
+                                                                    </div>
                                                                 </div>
-                                                            </div>
-                                                        </div>
-                                                        <div className="col-md-12 col-lg-12">
-                                                            <span>{t('translation.kaveriData.registrationNo')} <span style={{ color: 'red' }}>*</span>&nbsp;&nbsp; <a href="/" color="primary">View Sample</a></span>
-                                                        </div>
-                                                        <div className="col-md-8 col-lg-8 mt-2">
-                                                            <div className="form-group">
-                                                                {/* <span className="form-label">{t('translation.kaveriData.registerNo')} </span> */}
-                                                                   
-                                                                <input
-                                                                    type="text"
-                                                                    className="form-control"
-                                                                    name="example-text-input"
-                                                                    placeholder={t('translation.kaveriData.placeholder')} />
-                                                            </div>
-                                                        </div>
-                                                        <div className="col-md-4 col-lg-4 mt-2">
-                                                            <div className="form-group">
-                                                            
-                                                                <button type="submit" className="btn btn_color btn-block ">{t('translation.buttons.getKaveriData')}</button>
-                                                            </div>
-                                                        </div>
-                                                        <div className="col-md-12 col-lg-12 ">
-                                                            {/* Table starts */}
-                                                            <div className="overflow-x-auto">
-                                                                <table className="w-full border-collapse border border-gray-300">
-                                                                    <thead>
-                                                                        <tr className="bg-gray-200 text-center">
-                                                                            <th className="border border-gray-300 px-6 py-3">Registation Number</th>
-                                                                            <th className="border border-gray-300 px-6 py-3">Nature Deed</th>
-                                                                            <th className="border border-gray-300 px-6 py-3">Article type</th>
-                                                                            <th className="border border-gray-300 px-6 py-3">Registation Date Timer</th>
-                                                                            <th className="border border-gray-300 px-6 py-3">Area(Sq.mt)</th>
-                                                                            <th className="border border-gray-300 px-6 py-3">Area(Sq.ft)</th>
-                                                                            <th className="border border-gray-300 px-6 py-3">Measurement</th>
-                                                                        </tr>
-                                                                    </thead>
-                                                                    <tbody>
-                                                                        <tr className="text-center">
-                                                                            <td className="border border-gray-300 px-6 py-3"></td>
-                                                                            <td className="border border-gray-300 px-6 py-3"></td>
-                                                                            <td className="border border-gray-300 px-6 py-3"></td>
-                                                                            <td className="border border-gray-300 px-6 py-3"></td>
-                                                                            <td className="border border-gray-300 px-6 py-3"></td>
-                                                                            <td className="border border-gray-300 px-6 py-3"></td>
-                                                                            <td className="border border-gray-300 px-6 py-3"></td>
-                                                                        </tr>
-                                                                    </tbody>
-                                                                </table>
-                                                            </div>
+                                                                <br />
+                                                                {showKaveriDocumentData && <KaveriDocumentData />}
+                                                                {/* Second Table - Only visible if validation passes */}
+                                                                {showSaveDeedInformationTable && (
+                                                                    <div><div className="col-md-12 col-lg-12 "> <br />
+                                                                        {/* Table starts */}
+                                                                        <div className="overflow-x-auto">
+                                                                            <table className="w-full border-collapse border border-gray-300">
+                                                                                <thead>
+                                                                                    <tr className="bg-gray-200 text-center">
+                                                                                        <th className="border border-gray-300 px-6 py-3">{t('translation.kaveriData.registerNo')}</th>
+                                                                                        <th className="border border-gray-300 px-6 py-3">{t('translation.kaveriData.KaveriDocumentData.table.natureDeed')}</th>
+                                                                                        <th className="border border-gray-300 px-6 py-3">{t('translation.kaveriData.KaveriDocumentData.table.articleType')}</th>
+                                                                                        <th className="border border-gray-300 px-6 py-3">{t('translation.kaveriData.KaveriDocumentData.table.registrationDateTime')}</th>
+                                                                                        <th className="border border-gray-300 px-6 py-3">{t('translation.kaveriData.KaveriDocumentData.table.areasqmt')}</th>
+                                                                                        <th className="border border-gray-300 px-6 py-3">{t('translation.kaveriData.KaveriDocumentData.table.areaftmt')}</th>
+                                                                                        <th className="border border-gray-300 px-6 py-3">{t('translation.kaveriData.KaveriDocumentData.table.measurement')}</th>
+                                                                                    </tr>
+                                                                                </thead>
+                                                                                <tbody>
+                                                                                    <tr className="text-center">
+                                                                                        <td className="border border-gray-300 px-6 py-3"></td>
+                                                                                        <td className="border border-gray-300 px-6 py-3"></td>
+                                                                                        <td className="border border-gray-300 px-6 py-3"></td>
+                                                                                        <td className="border border-gray-300 px-6 py-3"></td>
+                                                                                        <td className="border border-gray-300 px-6 py-3"></td>
+                                                                                        <td className="border border-gray-300 px-6 py-3"></td>
+                                                                                        <td className="border border-gray-300 px-6 py-3"></td>
+                                                                                    </tr>
+                                                                                </tbody>
+                                                                            </table>
+                                                                        </div>
+                                                                        {/* Table ends */}
+                                                                    </div>
+                                                                        <div className="col-md-3 col-lg-4 mt-5">
+                                                                            <div className="form-group">
+                                                                                <button type="submit" className="btn btn_color btn-block ml-auto">{t('translation.buttons.save&next')}</button>
+                                                                            </div>
+                                                                        </div>
+                                                                    </div>
+                                                                )}
 
-                                                            {/* Table ends */}
-                                                        </div>
-                                                    </div><br />
-                                                    <div className='row '>
-                                                        {/* I accept kaveri system block starts */}
-                                                 
+                                                            </>
+                                                        )}
+                                                        <div>
+                                                            {/* Custom Modal */}
+                                                            {showRegistrationModal && (
+                                                                <div className="modal-overlay">
+                                                                    <div className="modal-content">
+                                                                        <span className="close-btn" onClick={handleRegistrationModalClose}>&times;</span>
+                                                                        <h2>{t('translation.modal.deedno')}</h2>
 
-                                                        <div className="col-md-6 col-lg-6">
-                                                            <div className="form-group">
-                                                                <div className="custom-controls-stacked">
-                                                                    <label className="custom-control custom-radio custom-control-inline">
-                                                                        <input type="radio" className="custom-control-input" name="example-inline-radios" value="option1" />
-                                                                        <span className="custom-control-label">I Accept the area in Kaveri System</span>
-                                                                    </label>
+                                                                        <img src={SampleDeep_no} alt="Sample" style={{ maxWidth: "100%", height: "auto" }} />
+                                                                    </div>
                                                                 </div>
-                                                            </div>
-                                                        </div>
-                                                        <div className="col-md-3 col-lg-3">
-                                                            <div className="form-group">
-                                                                <span className="form-label">Area in Sq.Mtrs : <span><input type="text" /></span></span>
-                                                            </div>
-                                                        </div>
-                                                        <div className="col-md-3 col-lg-3">
-                                                            <div className="form-group">
-                                                                <span className="form-label">Area in Sq.Fts : <span><input type="text" /></span></span>
-                                                            </div>
-                                                        </div>
-                                                        {/* I accept kaveri system block ends */}
+                                                            )}
 
-                                                        {/* I accept property tax system block starts */}
-                                                        <div className="col-md-6 col-lg-6">
-                                                            <div className="form-group">
-                                                                <div className="custom-controls-stacked">
-                                                                    <label className="custom-control custom-radio custom-control-inline">
-                                                                        <input type="radio" className="custom-control-input" name="example-inline-radios" value="option2" />
-                                                                        <span className="custom-control-label">I Accept the area in Property Tax System</span>
-                                                                    </label>
-                                                                </div>
-                                                            </div>
+                                                            {/* Modal CSS */}
+                                                            <style>{`
+                                                        .modal-overlay {
+                                                        position: fixed;
+                                                        top: 0;
+                                                        left: 0;
+                                                        background: rgba(0, 0, 0, 0.5);
+                                                        display: flex;
+                                                        justify-content: center;
+                                                        align-items: center;
+                                                        z-index: 1000;
+                                                        }
+                                                        .modal-content {
+                                                        background: white;
+                                                        padding: 20px;
+                                                        width: 50%; /* Increased width */
+                                                        height:50%
+                                                        max-width: 900px; /* Large size modal */
+                                                        border-radius: 8px;
+                                                        box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+                                                        text-align: center;
+                                                        position: relative;
+                                                        }
+                                                        .close-btn {
+                                                        position: absolute;
+                                                        top: 10px;
+                                                        right: 15px;
+                                                        font-size: 24px;
+                                                        cursor: pointer;
+                                                        }
+                                                    `}</style>
                                                         </div>
-                                                        <div className="col-md-3 col-lg-3">
-                                                            <div className="form-group">
-                                                                <span className="form-label">Area in Sq.Mtrs : <span>15.3</span></span>
-                                                            </div>
-                                                        </div>
-                                                        <div className="col-md-3 col-lg-3">
-                                                            <div className="form-group">
-                                                                <span className="form-label">Area in Sq.Fts : <span>15.3</span></span>
-                                                            </div>
-                                                        </div>
-                                                        {/* I accept property tax system block ends */}
 
-                                                        {/* I accept property tax system block starts */}
-                                                        {/* <div className="col-md-6 col-lg-6">
-                                                            <div className="form-group">
-                                                                <div className="custom-controls-stacked">
-                                                                    <label className="custom-control custom-radio custom-control-inline">
-                                                                        <input type="radio" className="custom-control-input" name="example-inline-radios" value="option3" />
-                                                                        <span className="custom-control-label">I Object to the area in kaveri & Property Tax</span>
-                                                                    </label>
-                                                                </div>
-                                                            </div>
-                                                        </div>
-                                                        <div className="col-md-3 col-lg-3">
-                                                            <div className="form-group">
-                                                                <span className="form-label">Area in Sq.Mtrs : <span><input type="text" /></span></span></span>
-                                                            </div>
-                                                        </div>
-                                                        <div className="col-md-3 col-lg-3">
-                                                            <div className="form-group">
-                                                                <span className="form-label">Area in Sq.Fts : <span><input type="text" /></span></span></span>
-                                                            </div>
-                                                        </div> */}
-                                                        <div className="col-md-6 col-lg-6">
-        <div className="form-group">
-          <div className="custom-controls-stacked">
-            <label className="custom-control custom-radio custom-control-inline">
-              <input
-                type="radio"
-                className="custom-control-input"
-                name="example-inline-radios"
-                value="option3"
-                onChange={handleKaveriRadioChange}
-              />
-              <span className="custom-control-label">
-                I Object to the area in Kaveri & Property Tax
-              </span>
-            </label>
-          </div>
-        </div>
-      </div>
-
-      {iskaveriRadioSelected && (
-        <>
-          <div className="col-md-3 col-lg-3">
-            <div className="form-group">
-              <label className="form-label">Area in Sq.Mtrs:</label>
-              <input
-                type="text"
-                className="form-control"
-                value={kaverisqMeters}
-                onChange={handleSqMetersChange}
-              />
-            </div>
-          </div>
-
-          <div className="col-md-3 col-lg-3">
-            <div className="form-group">
-              <label className="form-label">Area in Sq.Fts:</label>
-              <input
-                type="text"
-                className="form-control"
-                value={kaverisqFeet}
-                onChange={handleSqFeetChange}
-              />
-            </div>
-          </div>
-        </>
-      )}
-                                                        {/* I accept property tax system block ends */}
 
                                                     </div>
+                                                    <br />
+                                                    {iskaverimainRadioSelected === "option2" && (
+                                                        <>
+
+                                                            {!showRegistrationContent && (
+                                                                <div className="row">
+                                                                    <h4>{t('translation.kaveriData.KaveriDocumentData.radiobtn2.title')}</h4>
+                                                                    <div className="col-md-6 col-lg-4 col-12">
+                                                                        <div className="form-group">
+                                                                            <label className="form-label">{t('translation.kaveriData.KaveriDocumentData.radiobtn2.documentType')} <span style={{ color: 'red' }}>*</span></label>
+                                                                            <div className="input-group">
+                                                                                <select
+                                                                                    className="form-control select2"
+                                                                                    name="kaveri_documentType"
+                                                                                    id="kaveri_documentType"
+                                                                                    onChange={handleKaveriDocumentTypeChange}
+                                                                                    value={kaveri_documentType}
+                                                                                    placeholder={t('translation.kaveriData.KaveriDocumentData.radiobtn2.documentType')}
+                                                                                >
+                                                                                    <option value="0">--Select--</option>
+                                                                                    <option value="26">ಇತರೆ/Other</option>
+                                                                                    <option value="28">ಸ್ವಾಧೀನ ಪತ್ರ/Possession Certificate</option>
+                                                                                    <option value="29">ಗುತ್ತಿಗೆ ಯಾ ಕ್ರಯ ಪತ್ರ/ಕ್ರಯ ಪತ್ರ from BDA/KHB/BMICAPA/KIADB/KSSIDC/Lease cum Sale Deed/Sale Deed from BDA/KHB/BMICAPA/KIADB/KSSIDC</option>
+                                                                                    <option value="31">ಕ್ರಯ ಪತ್ರ/Sale Deed</option>
+                                                                                    <option value="48">ಕ್ರಯ ಪ್ರಮಾಣ ಪತ್ರ/Certificate of Sale/Sale Certificate</option>
+                                                                                    <option value="49">ವಸಾಹತು ಪತ್ರ/Settlement Deed</option>
+                                                                                    <option value="50">ವಿನಿಮಯ ಪತ್ರ/Exchange of Property Deed</option>
+                                                                                    <option value="51">ವಿಲ್‌ ಯಾ ಮರಣ ಶಾಸನ ಪತ್ರ/Will</option>
+                                                                                    <option value="52">ನ್ಯಾಯಾಲಯದ ತೀರ್ಪು/ಆದೇಶ/Court Decree/Orders</option>
+                                                                                    <option value="211">ಆಸ್ತಿ ತೆರಿಗೆ ಪಾವತಿ ರಶೀದಿ/Property Tax Receipt</option>
+                                                                                    <option value="213">ದಾನ ಪತ್ರ/Gift Deed</option>
+                                                                                    <option value="216">ವಿಭಾಗ ಪತ್ರ/Partition Deed</option>
+                                                                                    <option value="217">ಹಕ್ಕು / ಬಿಡುಗಡೆ ಪತ್ರ/Right / Release Deed</option>
+                                                                                </select>
+                                                                            </div>
+                                                                        </div>
+                                                                    </div>
+                                                                    {showDocumentDetails && (
+                                                                        <div className="col-md-6 col-lg-4 col-12">
+                                                                            <div className="form-group">
+                                                                                <label className="form-label">{t('translation.kaveriData.KaveriDocumentData.radiobtn2.documentDetails')}</label>
+                                                                                <div className="input-group">
+                                                                                    <input
+                                                                                        type="text"
+                                                                                        className="form-control"
+                                                                                        name="example-text-input"
+                                                                                        placeholder={t('translation.kaveriData.KaveriDocumentData.radiobtn2.documentDetails')}
+                                                                                    />
+                                                                                    <span
+                                                                                        className="input-group-text"
+                                                                                        data-bs-toggle="tooltip"
+                                                                                        data-bs-placement="top"
+                                                                                        title="Enter the property ID as per records."
+                                                                                    >
+                                                                                        <i className="fas fa-info-circle text-secondary"></i>
+                                                                                    </span>
+                                                                                </div>
+                                                                            </div>
+                                                                        </div>
+                                                                    )}
+                                                                    <div className="col-md-6 col-lg-4 col-12">
+                                                                        <div className="form-group">
+                                                                            <label className="form-label">{t('translation.kaveriData.KaveriDocumentData.radiobtn2.documentDateTime')}</label>
+                                                                            <div className="input-group">
+                                                                                <input
+                                                                                    type="date"
+                                                                                    className="form-control"
+                                                                                    value={documentdate}
+                                                                                    onChange={handleDocumentDateChange}
+                                                                                    min={minDate}
+                                                                                    max={maxDate}
+                                                                                />
+                                                                                <span
+                                                                                    className="input-group-text"
+                                                                                    data-bs-toggle="tooltip"
+                                                                                    data-bs-placement="top"
+                                                                                    title="Select a date between 01-01-1950 and 01-04-2004."
+                                                                                >
+                                                                                    <i className="fas fa-info-circle text-secondary"></i>
+                                                                                </span>
+                                                                            </div>
+                                                                        </div>
+                                                                    </div>
+                                                                    <div className="col-md-6 col-lg-4 col-12">
+                                                                        <div className="form-group">
+                                                                            <label className="form-label">{t('translation.kaveriData.KaveriDocumentData.radiobtn2.documentRegistrationNo')}</label>
+                                                                            <div className="input-group">
+                                                                                <input
+                                                                                    type="tel"
+                                                                                    className="form-control"
+                                                                                    placeholder={t('translation.kaveriData.KaveriDocumentData.radiobtn2.documentRegistrationNo')}
+                                                                                />
+                                                                                <span
+                                                                                    className="input-group-text"
+                                                                                    data-bs-toggle="tooltip"
+                                                                                    data-bs-placement="top"
+                                                                                    title="Select a date between 01-01-1950 and 01-04-2004."
+                                                                                >
+                                                                                    <i className="fas fa-info-circle text-secondary"></i>
+                                                                                </span>
+                                                                            </div>
+                                                                        </div>
+                                                                    </div>
+                                                                    <div className="col-md-6 col-lg-4 col-12">
+                                                                        <div className="form-group">
+                                                                            <label className="form-label">{t('translation.kaveriData.KaveriDocumentData.radiobtn2.uploadDocument')}</label>
+                                                                            <div className="input-group">
+                                                                                <input
+                                                                                    type="file"
+                                                                                    className="form-control"
+
+                                                                                />
+                                                                                <span
+                                                                                    className="input-group-text"
+                                                                                    data-bs-toggle="tooltip"
+                                                                                    data-bs-placement="top"
+                                                                                    title="Select a file. Only PDF files are allowed, with a maximum size of 5 MB."
+                                                                                >
+                                                                                    <i className="fas fa-info-circle text-secondary"></i>
+                                                                                </span>
+                                                                            </div>
+                                                                        </div>
+                                                                    </div>
+                                                                    <div className="col-md-6 col-lg-8 col-12"></div>
+                                                                    <div className="col-md-4 col-lg-4 mt-2">
+                                                                        <div className="form-group">
+                                                                            <button type="submit" className="btn btn_color btn-block " onClick={handleSaveRegistrationInfo}>Save</button>
+                                                                        </div>
+                                                                    </div>
+                                                                </div>
+                                                            )}
+                                                            {showRegistrationContent && (
+                                                                <div className='row'>
+                                                                    <div className="col-md-12 col-lg-12 col-12 mt-2">
+                                                                        <div className="overflow-x-auto">
+                                                                            <table className="w-full border-collapse border border-gray-300">
+                                                                                <thead>
+                                                                                    <tr className="bg-gray-600 text-center" style={{ backgroundColor: '#ddd' }}>
+                                                                                        <th className="border border-gray-300 px-6 py-3">{t('translation.kaveriData.KaveriDocumentData.radiobtn2.slno')}</th>
+                                                                                        <th className="border border-gray-300 px-6 py-3">{t('translation.kaveriData.KaveriDocumentData.radiobtn2.documentType')}</th>
+                                                                                        <th className="border border-gray-300 px-6 py-3">{t('translation.kaveriData.KaveriDocumentData.radiobtn2.documentDetails')}</th>
+                                                                                        <th className="border border-gray-300 px-6 py-3">{t('translation.kaveriData.KaveriDocumentData.radiobtn2.documentRegistrationNo')}</th>
+                                                                                        <th className="border border-gray-300 px-6 py-3">{t('translation.kaveriData.KaveriDocumentData.radiobtn2.documentDateTime')}</th>
+                                                                                        <th className="border border-gray-300 px-6 py-3">{t('translation.kaveriData.KaveriDocumentData.radiobtn2.uploadDocument')}</th>
+                                                                                        <th className="border border-gray-300 px-6 py-3">{t('translation.kaveriData.KaveriDocumentData.radiobtn2.action')}</th>
+
+                                                                                    </tr>
+                                                                                </thead>
+                                                                                <tbody>
+                                                                                    <tr className="text-center">
+                                                                                        <td className="border border-gray-300 px-6 py-3"></td>
+                                                                                        <td className="border border-gray-300 px-6 py-3"></td>
+                                                                                        <td className="border border-gray-300 px-6 py-3"></td>
+                                                                                        <td className="border border-gray-300 px-6 py-3">Vinayaka Nagara 1st Stage</td>
+                                                                                        <td className="border border-gray-300 px-6 py-3"></td>
+                                                                                        <td className="border border-gray-300 px-6 py-3"></td>
+                                                                                        <td className="border border-gray-300 px-6 py-3"></td>
+                                                                                    </tr>
+                                                                                </tbody>
+                                                                            </table>
+                                                                        </div>
+                                                                    </div>
+
+                                                                    <div className="col-md-4 col-lg-4 mt-2">
+                                                                        <div className="form-group">
+                                                                            <button type="submit" className="btn btn_color btn-block ">Save & Proceed Next</button>
+                                                                        </div>
+                                                                    </div>
+                                                                </div>
+                                                            )}
+                                                        </>
+                                                    )}
+                                                    {iskaverimainRadioSelected === "option3" && (
+                                                        <div className="col-md-4 col-lg-4 mt-2">
+                                                            <div className="form-group">
+                                                                <button type="submit" className="btn btn_color btn-block ">Save & Proceed Next</button>
+                                                            </div>
+                                                        </div>
+                                                    )}
+
+
+                                                    {(iskaverimainRadioSelected === "option1" ||
+                                                        iskaverimainRadioSelected === "option2" ||
+                                                        iskaverimainRadioSelected === "option3") && (
+
+                                                            <div className='row'>
+                                                                {/* I accept the area in Kaveri System Starts */}
+                                                                <div className="col-md-4 col-lg-4">
+                                                                    <div className="form-check">
+                                                                        <input className="form-check-input radioStyle" type="radio" />
+                                                                        <label>
+                                                                            I accept the area in Kaveri System
+                                                                        </label>
+                                                                    </div>
+                                                                </div>
+                                                                <div className="col-md-4 col-lg-4">
+                                                                    <div className="form-check">
+
+                                                                        <label>
+                                                                            Area in Sq.Mtrs.
+                                                                        </label>
+                                                                    </div>
+                                                                </div>
+                                                                <div className="col-md-4 col-lg-4">
+                                                                    <div className="form-check">
+
+                                                                        <label>
+                                                                            Area in Sq.Fts.
+                                                                        </label>
+                                                                    </div>
+                                                                </div>
+                                                                {/* I accept the area in Kaveri System ends */}
+
+                                                                {/*I accept the area in Property Tax System Starts */}
+                                                                <div className="col-md-4 col-lg-4">
+                                                                    <div className="form-check">
+                                                                        <input className="form-check-input radioStyle" type="radio" />
+                                                                        <label>
+                                                                            I accept the area in Property Tax System
+                                                                        </label>
+                                                                    </div>
+                                                                </div>
+                                                                <div className="col-md-4 col-lg-4">
+                                                                    <div className="form-check">
+
+                                                                        <label>
+                                                                            Area in Sq.Mtrs.
+                                                                        </label>
+                                                                    </div>
+                                                                </div>
+                                                                <div className="col-md-4 col-lg-4">
+                                                                    <div className="form-check">
+
+                                                                        <label>
+                                                                            Area in Sq.Fts.
+                                                                        </label>
+                                                                    </div>
+                                                                </div>
+                                                                {/* I accept the area in Property Tax System ends */}
+
+                                                                {/*I Object to the area in Kaveri & Property Tax Starts */}
+                                                                <div className="col-md-4 col-lg-4">
+                                                                    <div className="form-check">
+                                                                        <input className="form-check-input radioStyle" type="radio" />
+                                                                        <label>
+                                                                            I Object to the area in Kaveri & Property Tax
+                                                                        </label>
+                                                                    </div>
+                                                                </div>
+                                                                <div className="col-md-8 col-lg-8 col-0"></div>
+                                                                <div className="col-md-4 col-lg-4 col-12">
+                                                                    <div className="form-group">
+                                                                        <label className="form-label" style={{color:'red'}}>If you object to the area and enter of your own, then the case will be referred to ARO for approval.</label>
+                                                                    </div>
+                                                                </div>
+                                                                <div className="col-md-4 col-lg-4 col-12">
+                                                                    <div className="form-group">
+                                                                        <label className="form-label">Enter Area in Sq.Mtrs.</label>
+                                                                        <div className="input-group">
+                                                                            <input
+                                                                                type="text"
+                                                                                className="form-control"
+                                                                                name="example-text-input"
+                                                                            />
+                                                                        </div>
+                                                                    </div>
+                                                                </div>
+                                                                <div className="col-md-4 col-lg-4 col-12">
+                                                                    <div className="form-group">
+                                                                        <label className="form-label">Enter Area in Sq.Fts.</label>
+                                                                        <div className="input-group">
+                                                                            <input
+                                                                                type="text"
+                                                                                className="form-control"
+                                                                                name="example-text-input"
+                                                                            />
+                                                                        </div>
+                                                                    </div>
+                                                                </div>
+                                                                {/* I Object to the area in Kaveri & Property Tax ends */}
+                                                                <div className="col-md-4 col-lg-4 mt-2">
+                                                                        <div className="form-group">
+                                                                            <button type="submit" className="btn btn_color btn-block ">Save & Proceed Next</button>
+                                                                        </div>
+                                                                    </div>
+                                                            </div>
+                                                        )}
+
                                                 </div>
                                             </div>
                                         </div>
                                     </div>
                                 </div>
+
                                 {/* Section 2 ends */}
-                                <br />
-                                {/* Section 3 starts */}
+
+                                {/* Section 3 starts */} <br />
                                 <div className="accordion" id="formAccordion">
                                     <div className="accordion-item">
                                         <h2 className="accordion-header" id="headingOne">
@@ -949,41 +1681,41 @@ const { t, i18n } = useTranslation();
                                             <div className="accordion-body">
                                                 <div className="card-body">
                                                     <div className="row">
-                                                    <div className="col-md-12">
-          <b>Search using nearest landmark near your property- once you zoom there then locate your individual property & tap on top middle of your property</b>
-          <br /><br />
-        </div>
-        <div className="col-md-12 col-lg-12 col-sm-12 mb-3">
-          <input ref={searchInputRef} className="form-control" type="text" placeholder="Search nearest landmark near your property" />
-          
-        </div>
-        <div className="col-md-12 col-lg-12 col-sm-12 mb-3">
-          <div id="map" ref={mapRef} style={{ height: "500px" }}></div>
-        </div>
-        <div className="col-md-12 col-lg-12 col-sm-12">
-  <div className="row p-3 bg-light rounded shadow-sm">
-    {/* Result Type */}
-    <div className="col-12 mb-2 text-center">
-      <span id="resultType" className="fw-bold text-primary fs-5">{resultType}</span>
-    </div>
+                                                        <div className="col-md-12">
+                                                            <b>Search using nearest landmark near your property- once you zoom there then locate your individual property & tap on top middle of your property</b>
+                                                            <br /><br />
+                                                        </div>
+                                                        <div className="col-md-12 col-lg-12 col-sm-12 mb-3">
+                                                            <input ref={searchInputRef} className="form-control" type="text" placeholder="Search nearest landmark near your property" />
 
-    {/* Latitude */}
-    <div className="col-md-6 col-lg-6 col-sm-12 text-center mb-2">
-      <span className="fw-semibold text-dark">
-        Latitude: <label className="text-success">{latitude}</label>
-      </span>
-    </div>
+                                                        </div>
+                                                        <div className="col-md-12 col-lg-12 col-sm-12 mb-3">
+                                                            <div id="map" ref={mapRef} style={{ height: "500px" }}></div>
+                                                        </div>
+                                                        <div className="col-md-12 col-lg-12 col-sm-12">
+                                                            <div className="row p-3  rounded shadow-sm">
+                                                                {/* Result Type */}
+                                                                <div className="col-12 mb-2 text-center">
+                                                                    <span id="resultType" className="fw-bold text-primary fs-5">{resultType}</span>
+                                                                </div>
 
-    {/* Longitude */}
-    <div className="col-md-6 col-lg-6 col-sm-12 text-center">
-      <span className="fw-semibold text-dark">
-        Longitude: <label className="text-success">{longitude}</label>
-      </span>
-    </div>
-  </div>
-</div>
+                                                                {/* Latitude */}
+                                                                <div className="col-md-6 col-lg-6 col-sm-12 text-center mb-2">
+                                                                    <span className="fw-semibold text-dark">
+                                                                        Latitude: <label className="text-success">{latitude}</label>
+                                                                    </span>
+                                                                </div>
+
+                                                                {/* Longitude */}
+                                                                <div className="col-md-6 col-lg-6 col-sm-12 text-center">
+                                                                    <span className="fw-semibold text-dark">
+                                                                        Longitude: <label className="text-success">{longitude}</label>
+                                                                    </span>
+                                                                </div>
+                                                            </div>
+                                                        </div>
                                                     </div>
-                                     
+
                                                 </div>
                                             </div>
                                         </div>
@@ -1114,11 +1846,11 @@ const { t, i18n } = useTranslation();
                                                                 <label className="form-label">Property Image <span style={{ color: 'red' }}>*</span><br />
                                                                     <span style={{ color: 'gray' }}> Note: (Click Property Photo from outside with its front elevation visible)</span>
                                                                     <input
-                                                                    type="file"
-                                                                    className="form-control"
-                                                                    name="example-text-input"
-                                                                />
-                                                                <span style={{ color: 'gray' }}>Only JPG, JPEG allowed with a max size of 500KB</span>
+                                                                        type="file"
+                                                                        className="form-control"
+                                                                        name="example-text-input"
+                                                                    />
+                                                                    <span style={{ color: 'gray' }}>Only JPG, JPEG allowed with a max size of 500KB</span>
                                                                 </label>
                                                             </div>
                                                         </div>
@@ -1257,23 +1989,25 @@ const { t, i18n } = useTranslation();
                                                     <div className="row">
                                                         <div className="col-md-12 col-lg-12">
                                                             <div className="form-group">
-                                                                <p>I want to go for immediate sale/transfer of property, which I understand requires me to go to the jurisdictional ARO for in-person verification:</p>
-                                                                <p>Note: If anytime when you want to sell/transfer you will need to undergo in-person verification by jurisdictional ARO.</p>
-                                                                <p>If you select No, you will get final eKhata immediately.</p>
+                                                                <p>{t('translation.section8.title1')}</p>
+                                                                <p>{t('translation.section8.title2')}</p>
+                                                                <p>{t('translation.section8.title3')}</p>
                                                             </div>
                                                         </div>
                                                         <div className='col-md-3 col-lg-3'>
-                                                            <div className="form-group">
-                                                                <div className="custom-controls-stacked">
-                                                                    <label className="custom-control custom-radio custom-control-inline">
-                                                                        <input type="radio" className="custom-control-input" name="example-inline-radios" value="option1" />
-                                                                        <span className="custom-control-label">Yes</span>
-                                                                    </label>
-                                                                    <label className="custom-control custom-radio custom-control-inline">
-                                                                        <input type="radio" className="custom-control-input" name="example-inline-radios" value="option2" />
-                                                                        <span className="custom-control-label">No</span>
-                                                                    </label>
-                                                                </div>
+                                                        <div className="form-check">
+                                                                <input className="form-check-input radioStyle" type="radio" value="option1" />
+                                                                <label className="form-check-label">
+                                                                {t('translation.section8.radio_yes')}
+                                                                </label>
+                                                            </div>
+                                                            </div>
+                                                            <div className='col-md-3 col-lg-3'>
+                                                            <div className="form-check">
+                                                                <input className="form-check-input radioStyle" type="radio" value="option2" />
+                                                                <label className="form-check-label">
+                                                                {t('translation.section8.radio_no')}
+                                                                </label>
                                                             </div>
                                                         </div>
                                                     </div>
@@ -1310,11 +2044,11 @@ const { t, i18n } = useTranslation();
                                                                 <div className="custom-controls-stacked">
                                                                     <label className="custom-control custom-checkbox">
                                                                         <input type="checkbox" className="custom-control-input" name="example-checkbox1" value="option1" />
-                                                                        <span className="custom-control-label">I understand </span><br />
-                                                                        <p>1. 'A' & 'B' Khatha is being issued as per existing BBMP property Tax records & subject to final verification as per my submitted documents.</p>
-                                                                        <p>2. In case of any discrepancy between existing BBMP records & my submitted infomration or missing information, my case will be referred to the jurisdictional ARo for decision on merit.</p>
-                                                                        <p>3. Any eKhatha on government or government organization land is liable to be rejected or cancelled.</p>
-                                                                        <p>4. Any wrongful or incorrect eKhatha issued is liable to be cancelled.</p>
+                                                                        <span className="custom-control-label">{t('translation.declaration.first_checkbox')} </span><br />
+                                                                        <p>{t('translation.declaration.first_title')}</p>
+                                                                        <p>{t('translation.declaration.second_title')}</p>
+                                                                        <p>{t('translation.declaration.third_title')}</p>
+                                                                        <p>{t('translation.declaration.fourth_title')}</p>
                                                                     </label>
                                                                 </div>
                                                             </div>
@@ -1322,7 +2056,7 @@ const { t, i18n } = useTranslation();
                                                                 <div className="custom-controls-stacked">
                                                                     <label className="custom-control custom-checkbox">
                                                                         <input type="checkbox" className="custom-control-input" name="example-checkbox1" value="option2" />
-                                                                        <span className="custom-control-label">I certify that information submitted is true & correct to the best of my knowledge & belief and any false or wrong information makes eKhatha liable to be cancelled & make me liable for criminal/suitable action as per law </span><br />
+                                                                        <span className="custom-control-label">{t('translation.declaration.second_checkbox')}</span><br />
                                                                     </label>
                                                                 </div>
                                                             </div>
@@ -1340,10 +2074,9 @@ const { t, i18n } = useTranslation();
                                     {/* Section 9 ends */}
                                 </div>
                             </div>
-
-
-
                         </div>
+
+
                     </div>
                 </div>
             </div>

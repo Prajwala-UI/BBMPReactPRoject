@@ -46,7 +46,7 @@ import EKYCAmalgamationResponse from "./Pages/EKYCAmalgamationResponse";
 import GetNewKhataReport from './Pages/NewKhataReport';
 import BBMPLogin from './Pages/BBMPLogin';
 import BBMP_TaxDetails from './Pages/BBMP/taxDetails';
-
+import BBMP_Homepage from './Pages/BBMP/homePage';
 
 const AppRoutes = () => {
   return (
@@ -60,6 +60,7 @@ const AppRoutes = () => {
           <Routes>
             <Route path="/" element={<BBMPLogin />} />
             <Route path="/tax_Details" element={<BBMP_TaxDetails />} />
+            <Route path="/homePage" element={<BBMP_Homepage />} />
             <Route path="/login" element={<Login />} />
             <Route path="/PropertyList" element={<PropertyList />} />
             {/* <Route

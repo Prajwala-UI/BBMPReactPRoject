@@ -1,7 +1,8 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState, useRef } from 'react';
 import './DashboardLayout.css';
 import niclogo from '../assets/NIC_Logo1-01.png';
 import bbmplogo from '../assets/bbmp.png';
+import digital_logo from '../assets/digital_india.png';
 import { useTranslation } from "react-i18next";
 import i18n from "../localization/i18n";
 import "bootstrap/dist/css/bootstrap.min.css";
@@ -9,7 +10,6 @@ import "bootstrap/dist/js/bootstrap.bundle.min";
 
 
 const DashboardLayout = ({ children }) => {
-
   const { t, i18n } = useTranslation();
   const isEnglish = i18n.language === 'kn';
   const [language, setLanguage] = useState('kn');
@@ -20,30 +20,68 @@ const DashboardLayout = ({ children }) => {
     localStorage.setItem("selectedLanguage", newLang);
   };
   const [menuOpen, setMenuOpen] = useState(false);
+  const navbarRef = useRef(null);
+  document.addEventListener("DOMContentLoaded", function () {
+    document.querySelectorAll(".dropdown-submenu .dropdown-toggle").forEach((element) => {
+      element.addEventListener("click", function (e) {
+        e.stopPropagation();
+        let submenu = this.nextElementSibling;
+        if (submenu && submenu.classList.contains("dropdown-menu")) {
+          submenu.classList.toggle("show");
+        }
+      });
+    });
+  
+    document.addEventListener("click", function () {
+      document.querySelectorAll(".dropdown-menu.show").forEach((submenu) => {
+        submenu.classList.remove("show");
+      });
+    });
+  });
+  useEffect(() => {
+    const handleClickOutside = (event) => {
+      if (navbarRef.current && !navbarRef.current.contains(event.target)) {
+        setMenuOpen(false);
+      }
+    };
+
+    // Attach event listener when menu is open
+    if (menuOpen) {
+      document.addEventListener("mousedown", handleClickOutside);
+    } else {
+      document.removeEventListener("mousedown", handleClickOutside);
+    }
+
+    return () => {
+      document.removeEventListener("mousedown", handleClickOutside);
+    };
+  }, [menuOpen]);
+
+
   return (
-    <div classNameName="App">
+    <div className="App">
 
       <div className="page">
         <div className="page-main">
           <div className="header py-1">
             <div className="container">
-              <div className='row text-center'>
-                <div className='col-md-2 col-12 text-right'>
-                  <img src={bbmplogo} width={60} height={50} />
+              <div className='row '>
+                <div className='col-md-2 col-12'>
+                  <center><img src={bbmplogo} width={60} height={50} /></center>
                 </div>
                 <div className='col-md-8 col-12 py-1'>
-                  <h3>{t('translation.eaasthi.bbmpHeading')}<br />{t('translation.eaasthi.heading')}</h3>
+                  <center><h3>{t('translation.eaasthi.bbmpHeading')}<br />{t('translation.eaasthi.heading')}</h3></center>
                 </div>
                 <div className='col-md-2 col-12'>
-                  <div className="d-flex">
-                    <div style={{ backgroundColor: '#fff' }}><img src={niclogo} width={80} height={50} /></div>
-                  </div>
+                <center>
+                    <span ><img src={niclogo} width={80} height={50} style={{ backgroundColor: '#fff' }}/></span>
+                  </center>
                 </div>
               </div>
             </div>
           </div>
 
-          <nav className="header navbar navbar-expand-lg navbar-light bg-light">
+          <nav className=" navbar navbar-expand-lg navbar-light bg-light" ref={navbarRef}>
             <div className="container">
               {/* Navbar Toggle Button for Mobile */}
               <button
@@ -51,10 +89,9 @@ const DashboardLayout = ({ children }) => {
                 type="button"
                 onClick={() => setMenuOpen(!menuOpen)}
               >
-                <span className="navbar-toggler-icon"></span>
+                <span className="navbar-toggler-icon"></span>&nbsp;&nbsp;BBMP - EAasthi <img src={bbmplogo} width={40} height={40} style={{marginLeft:'100px'}}/>
               </button>
 
-              {/* Collapsible Navbar */}
               <div
                 className={`collapse navbar-collapse ${menuOpen ? "show" : ""}`}
                 id="navbarMenu"
@@ -127,25 +164,28 @@ const DashboardLayout = ({ children }) => {
                     </a>
                   </li>
                   <li className="nav-item dropdown">
-                    <a href="#" className="nav-link dropdown-toggle"  role="button" data-bs-toggle="dropdown" aria-expanded="false">
-                      <i className="fa fa-box"></i>&nbsp; {t('translation.thingstoknow.title')}
-                    </a>
-                    <ul className="dropdown-menu" aria-labelledby="citizenServicesDropdown">
-                      <li>
-                        <a className="dropdown-item" href="#">Sub Item 1</a>
-                      </li>
-                      <li className="dropdown-submenu">
-                        <a className="dropdown-item dropdown-toggle" href="#">Sub Menu</a>
-                        <ul className="dropdown-menu">
-                          <li><a className="dropdown-item" href="#">Sub Item 2.1</a></li>
-                          <li><a className="dropdown-item" href="#">Sub Item 2.2</a></li>
-                        </ul>
-                      </li>
-                      <li>
-                        <a className="dropdown-item" href="#">Sub Item 3</a>
-                      </li>
-                    </ul>
-                  </li>
+  <a href="#" className="nav-link dropdown-toggle" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+    <i className="fa fa-box"></i>&nbsp; {t('translation.thingstoknow.title')}
+  </a>
+  <ul className="dropdown-menu">
+    <li className="dropdown-submenu">
+      <a className="dropdown-item dropdown-toggle" href="#">{t('translation.thingstoknow.subdropdown.dropdown1')}</a>
+      <ul className="dropdown-menu">
+        <li><a className="dropdown-item" href="#">{t('translation.thingstoknow.subdropdown.east')}</a></li>
+      </ul>
+    </li>
+    <li className="dropdown-submenu">
+      <a className="dropdown-item dropdown-toggle" href="#">{t('translation.thingstoknow.subdropdown.dropdown2')}</a>
+      <ul className="dropdown-menu">
+        <li><a className="dropdown-item" href="#">{t('translation.thingstoknow.subdropdown.east')}</a></li>
+      </ul>
+    </li>
+    <li>
+      <a className="dropdown-item" href="#">{t('translation.thingstoknow.subdropdown.dropdown3')}</a>
+    </li>
+  </ul>
+</li>
+
                 </ul>
 
                 {/* Right Side Buttons */}
@@ -154,7 +194,7 @@ const DashboardLayout = ({ children }) => {
                     className="btn btn-sm"
                     style={{ backgroundColor: "#fff", color: "#023e8a" }}
                   >
-                    Department Login
+                     {t('translation.buttons.deptLogin')}
                   </button>
                   &nbsp;
                   <select className="language-dropdown"
@@ -174,7 +214,7 @@ const DashboardLayout = ({ children }) => {
           <main>{children}</main>
 
 
-          <div className="footer">
+          {/* <div className="footer">
             <div className="container">
               <div className="row">
                 <div className="col-lg-8">
@@ -219,7 +259,85 @@ const DashboardLayout = ({ children }) => {
                 </div>
               </div>
             </div>
-          </footer>
+          </footer> */}
+           <section id="contact">
+                          <div className="container">
+                              <div className="row" data-aos="fade-up">
+                                  <div className="col-lg-4 col-md-4 col-sm-12 col-12">
+                                      <div className="contact-about">
+                                          <h6 className='line_style'>{t('translation.footer.heading1')}</h6>
+                                          <div className="footer-title-line"></div>
+                                          <div className="social-links">
+                                              <img src={niclogo} alt="" width="130" height="90" /><br /><br />
+                                              <a href="#" className="twitter"><i className="fab fa-twitter"></i></a>
+                                              <a href="#" className="facebook"><i className="fab fa-facebook"></i></a>
+                                              <a href="#" className="instagram"><i className="fab fa-instagram"></i></a>
+                                              <a href="#" className="google-plus"><i className="fab fa-google-plus"></i></a>
+                                              <a href="#" className="linkedin"><i className="fab fa-linkedin"></i></a>
+                                          </div>
+          
+                                      </div>
+                                  </div>
+          
+                                  <div className="col-lg-4 col-md-4 col-sm-12 col-12">
+                                      <div className="info">
+                                          <h6 className='line_style'>{t('translation.footer.headOffice.heading')}</h6>
+                                          <div className="footer-title-line"></div>
+                                          <div>
+                                              <i className="fas fa-map-marker-alt"></i>
+                                              <p>{t('translation.footer.headOffice.address')}</p>
+                                          </div>
+                                          <div className="icon_size">
+                                              <i className="fa fa-envelope"></i>
+                                              <p>{t('translation.footer.headOffice.email')}</p>
+                                          </div>
+                                          <div>
+                                              <i className="fa fa-phone"></i>
+                                              <p>{t('translation.footer.headOffice.phone')}</p>
+                                          </div>
+                                          <div>
+                                              <i className="fa fa-phone"></i>
+                                              <p>{t('translation.footer.headOffice.phone1')}</p>
+                                          </div>
+                                      </div>
+                                  </div>
+          
+                                  <div className="col-lg-4 col-md-4 col-sm-12 col-12">
+                                      <h6 className='line_style'>{t('translation.footer.bussinessHours.heading')}</h6>
+                                      <div className="footer-title-line"></div>
+                                      <div className="row">
+                                          <div className="col-md-6">
+                                              {t('translation.footer.bussinessHours.days')}
+                                          </div>
+                                          <div className="col-md-6">
+                                              {t('translation.footer.bussinessHours.hours')}
+                                          </div>
+                                          <div className="col-md-12">
+                                              {t('translation.footer.bussinessHours.timings')}
+                                          </div>
+                                          <div className="col-md-12">
+                                              {t('translation.footer.bussinessHours.closing')}
+                                          </div>
+                                          <br />
+                                          <img src={digital_logo} alt="" width="60" height="90" />
+                                      </div>
+                                  </div>
+                              </div>
+                          </div>
+                      </section>
+          
+                      <footer id="footer">
+                          <div className="container">
+                              <div className="row">
+                                  <div className="col-lg-12 text-lg-left text-center">
+                                      <div className="copyright">
+                                          &copy; {t('translation.footer.copyrights')} <strong>{t('translation.footer.heading')}</strong>. {t('translation.footer.reserved')}
+                                      </div>
+                                  </div>
+          
+                              </div>
+                          </div>
+                      </footer>
         </div>
       </div>
     </div>
