@@ -20,7 +20,12 @@ const DashboardLayout = ({ children }) => {
     setLanguage(newLang);
     i18n.changeLanguage(newLang);
     localStorage.setItem("selectedLanguage", newLang);
-  };
+  }; 
+  const [zoomLevel] = useState(0.8);
+  useEffect(() => {
+          document.body.style.zoom = zoomLevel; // Apply zoom
+          
+      }, [zoomLevel]);
   const [menuOpen, setMenuOpen] = useState(false);
   const navbarRef = useRef(null);
   document.addEventListener("DOMContentLoaded", function () {
@@ -386,7 +391,8 @@ const DashboardLayout = ({ children }) => {
               <div className="row">
                 <div className="col-lg-12 text-lg-left text-center">
                   <div className="copyright">
-                    &copy; {t('translation.footer.copyrights')} <strong>{t('translation.footer.heading')}</strong>. {t('translation.footer.reserved')}
+                  <p><span style={{backgroundColor:"#023e8a",color:'#fff'}}>{t('translation.footer.designedby')}</span> &copy; {t('translation.footer.copyrights')} <strong>{t('translation.footer.heading')}</strong>. {t('translation.footer.reserved')}</p>
+                    
                   </div>
                 </div>
 

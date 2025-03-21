@@ -3853,6 +3853,7 @@
     padding-left: 0;
     margin-bottom: 0;
     list-style: none;
+    width: 1000px;
   }
   
   .navbar-nav .nav-link {
@@ -3943,6 +3944,7 @@
     }
     .navbar-nav .nav-item .nav-link {
       color:#000;
+      width: 113px;
     }
   }
   .navbar-toggler {

@@ -20,7 +20,7 @@ const BBMPLogin = () => {
     const { t, i18n } = useTranslation();
     const isEnglish = i18n.language === 'kn';
     const [language, setLanguage] = useState('kn');
-    const [zoomLevel] = useState(0.9);
+    const [zoomLevel] = useState(0.8);
 
     const [showOTPFields, setShowOTPFields] = useState(false);
     const [phoneNumber, setPhoneNumber] = useState("");
