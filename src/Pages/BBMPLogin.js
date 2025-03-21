@@ -114,8 +114,8 @@ const BBMPLogin = () => {
                 {
                     headers: {
                         'Content-Type': 'application/json',
-                        'username': 'BBMPOTP',
-                        'password': '10750b6bdc29495297efd2fb29047a94'
+                        'username': config.ApiCredentials.credentials.username,
+                        'password': config.ApiCredentials.credentials.password
                     }
                 }
             );
