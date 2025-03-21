@@ -1,4 +1,5 @@
 import React, { useEffect, useState, useRef } from 'react';
+import { useNavigate } from 'react-router-dom';
 import './DashboardLayout.css';
 import niclogo from '../assets/NIC_Logo1-01.png';
 import bbmplogo from '../assets/bbmp.png';
@@ -10,6 +11,7 @@ import "bootstrap/dist/js/bootstrap.bundle.min";
 
 
 const DashboardLayout = ({ children }) => {
+  const navigate = useNavigate();
   const { t, i18n } = useTranslation();
   const isEnglish = i18n.language === 'kn';
   const [language, setLanguage] = useState('kn');
@@ -22,22 +24,54 @@ const DashboardLayout = ({ children }) => {
   const [menuOpen, setMenuOpen] = useState(false);
   const navbarRef = useRef(null);
   document.addEventListener("DOMContentLoaded", function () {
-    document.querySelectorAll(".dropdown-submenu .dropdown-toggle").forEach((element) => {
-      element.addEventListener("click", function (e) {
-        e.stopPropagation();
-        let submenu = this.nextElementSibling;
-        if (submenu && submenu.classList.contains("dropdown-menu")) {
-          submenu.classList.toggle("show");
-        }
-      });
-    });
-  
+
     document.addEventListener("click", function () {
       document.querySelectorAll(".dropdown-menu.show").forEach((submenu) => {
         submenu.classList.remove("show");
       });
     });
   });
+
+  useEffect(() => {
+    const dropdownSubmenus = document.querySelectorAll(".dropdown-submenu > a");
+    dropdownSubmenus.forEach((submenu) => {
+      submenu.addEventListener("click", (e) => {
+        e.preventDefault();
+        e.stopPropagation();
+        let nextMenu = submenu.nextElementSibling;
+        if (nextMenu) {
+          nextMenu.classList.toggle("show");
+        }
+      });
+    });
+
+    return () => {
+      dropdownSubmenus.forEach((submenu) => {
+        submenu.removeEventListener("click", () => { });
+      });
+    };
+  }, []);
+  const [isDropdownOpen, setIsDropdownOpen] = useState(false);
+  const dropdownRef = useRef(null);
+  // Function to toggle the dropdown
+  const toggleDropdown = (e) => {
+    e.preventDefault(); // Prevents page jump
+    setIsDropdownOpen((prev) => !prev);
+  };
+
+  // Close dropdown when clicking outside
+  useEffect(() => {
+    const handleClickOutside = (event) => {
+      if (dropdownRef.current && !dropdownRef.current.contains(event.target)) {
+        setIsDropdownOpen(false);
+      }
+    };
+
+    document.addEventListener("click", handleClickOutside);
+    return () => {
+      document.removeEventListener("click", handleClickOutside);
+    };
+  }, []);
   useEffect(() => {
     const handleClickOutside = (event) => {
       if (navbarRef.current && !navbarRef.current.contains(event.target)) {
@@ -55,9 +89,12 @@ const DashboardLayout = ({ children }) => {
     return () => {
       document.removeEventListener("mousedown", handleClickOutside);
     };
+
   }, [menuOpen]);
 
-
+  const handleClick = () => {
+    navigate('/homePage');
+  };
   return (
     <div className="App">
 
@@ -73,8 +110,8 @@ const DashboardLayout = ({ children }) => {
                   <center><h3>{t('translation.eaasthi.bbmpHeading')}<br />{t('translation.eaasthi.heading')}</h3></center>
                 </div>
                 <div className='col-md-2 col-12'>
-                <center>
-                    <span ><img src={niclogo} width={80} height={50} style={{ backgroundColor: '#fff' }}/></span>
+                  <center>
+                    <span ><img src={niclogo} width={80} height={50} style={{ backgroundColor: '#fff' }} /></span>
                   </center>
                 </div>
               </div>
@@ -89,7 +126,8 @@ const DashboardLayout = ({ children }) => {
                 type="button"
                 onClick={() => setMenuOpen(!menuOpen)}
               >
-                <span className="navbar-toggler-icon"></span>&nbsp;&nbsp;BBMP - EAasthi <img src={bbmplogo} width={40} height={40} style={{marginLeft:'100px'}}/>
+                <span className="navbar-toggler-icon"></span>&nbsp;&nbsp;BBMP - EAasthi
+                <img src={bbmplogo} width={40} height={40} style={{ marginLeft: '60px' }} />
               </button>
 
               <div
@@ -97,11 +135,49 @@ const DashboardLayout = ({ children }) => {
                 id="navbarMenu"
               >
                 <ul className="navbar-nav mr-auto">
-                  <li className="nav-item">
-                    <a href="./index.html" className="nav-link active">
-                      <i className="fa fa-home"></i>&nbsp; {t('translation.homepage.title')}
+                  <li className="nav-item dropdown">
+                    <a href="#" className="nav-link dropdown-toggle" id="citizenServicesDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                      <i className="fa fa-home"></i>&nbsp; e-Khata Services
                     </a>
+                    <ul className="dropdown-menu">
+                      <li className="dropdown-submenu">
+                        <a className="dropdown-item dropdown-toggle" href="#">
+                          Entry Form
+                        </a>
+                        <ul className="dropdown-menu">
+                          <li>
+                            <a className="dropdown-item" href="#">Get e-Khatha</a>
+                          </li>
+                          <li>
+                            <a className="dropdown-item" href="#">Pending Applications</a>
+                          </li>
+                          <li>
+                            <a className="dropdown-item" href="#">ಸಲ್ಲಿಸಿದ ಆಸ್ತಿ ಸ್ಥಿತಿ</a>
+                          </li>
+                          <li>
+                            <a className="dropdown-item" href="#">File Objections On Final eKhata</a>
+                          </li>
+                          <li>
+                            <a className="dropdown-item" href="#">Amalgamation</a>
+                          </li>
+                          <li>
+                            <a className="dropdown-item" href="#">Do not find my Property Draft eKhata</a>
+                          </li>
+                        </ul>
+                      </li>
+                      <li className="dropdown-submenu">
+                        <a className="dropdown-item dropdown-toggle" href="#">
+                          Reports
+                        </a>
+                        <ul className="dropdown-menu">
+                          <li>
+                            <a className="dropdown-item" href="#">Scanned Property Tax Registers of BBMP</a>
+                          </li>
+                        </ul>
+                      </li>
+                    </ul>
                   </li>
+
                   <li className="nav-item dropdown">
                     <a href="#" className="nav-link dropdown-toggle" id="citizenServicesDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
                       <i className="fa fa-box"></i>&nbsp; {t('translation.citizenServices.title')}
@@ -137,7 +213,7 @@ const DashboardLayout = ({ children }) => {
                     </ul>
                   </li>
                   <li className="nav-item dropdown">
-                    <a href="#" className="nav-link dropdown-toggle"  role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                    <a href="#" className="nav-link dropdown-toggle" role="button" data-bs-toggle="dropdown" aria-expanded="false">
                       <i className="fa fa-calendar"></i>&nbsp; {t('translation.reports.title')}
                     </a>
                     <ul className="dropdown-menu" aria-labelledby="citizenServicesDropdown">
@@ -163,28 +239,51 @@ const DashboardLayout = ({ children }) => {
                       <i className="fa fa-file"></i>&nbsp; {t('translation.propertyTax.title')}
                     </a>
                   </li>
+
                   <li className="nav-item dropdown">
-  <a href="#" className="nav-link dropdown-toggle" role="button" data-bs-toggle="dropdown" aria-expanded="false">
-    <i className="fa fa-box"></i>&nbsp; {t('translation.thingstoknow.title')}
-  </a>
-  <ul className="dropdown-menu">
-    <li className="dropdown-submenu">
-      <a className="dropdown-item dropdown-toggle" href="#">{t('translation.thingstoknow.subdropdown.dropdown1')}</a>
-      <ul className="dropdown-menu">
-        <li><a className="dropdown-item" href="#">{t('translation.thingstoknow.subdropdown.east')}</a></li>
+      <a
+        href="#"
+        className={`nav-link dropdown-toggle ${isDropdownOpen ? "show" : ""}`}
+        role="button"
+        onClick={toggleDropdown} // Toggle on click
+        aria-expanded={isDropdownOpen}
+      >
+        <i className="fa fa-box"></i>&nbsp; {t("translation.thingstoknow.title")}
+      </a>
+      <ul className={`dropdown-menu ${isDropdownOpen ? "show" : ""}`}>
+        <li className="dropdown-submenu">
+          <a className="dropdown-item dropdown-toggle" href="#">
+            {t("translation.thingstoknow.subdropdown.dropdown1")}
+          </a>
+          <ul className="dropdown-menu">
+            <li>
+              <a className="dropdown-item" href="#">
+                {t("translation.thingstoknow.subdropdown.east")}
+              </a>
+            </li>
+          </ul>
+        </li>
+        <li className="dropdown-submenu">
+          <a className="dropdown-item dropdown-toggle" href="#">
+            {t("translation.thingstoknow.subdropdown.dropdown2")}
+          </a>
+          <ul className="dropdown-menu">
+            <li>
+              <a className="dropdown-item" href="#">
+                {t("translation.thingstoknow.subdropdown.east")}
+              </a>
+            </li>
+          </ul>
+        </li>
+        <li>
+          <a className="dropdown-item" href="#">
+            {t("translation.thingstoknow.subdropdown.dropdown3")}
+          </a>
+        </li>
       </ul>
     </li>
-    <li className="dropdown-submenu">
-      <a className="dropdown-item dropdown-toggle" href="#">{t('translation.thingstoknow.subdropdown.dropdown2')}</a>
-      <ul className="dropdown-menu">
-        <li><a className="dropdown-item" href="#">{t('translation.thingstoknow.subdropdown.east')}</a></li>
-      </ul>
-    </li>
-    <li>
-      <a className="dropdown-item" href="#">{t('translation.thingstoknow.subdropdown.dropdown3')}</a>
-    </li>
-  </ul>
-</li>
+
+
 
                 </ul>
 
@@ -194,7 +293,7 @@ const DashboardLayout = ({ children }) => {
                     className="btn btn-sm"
                     style={{ backgroundColor: "#fff", color: "#023e8a" }}
                   >
-                     {t('translation.buttons.deptLogin')}
+                    {t('translation.buttons.deptLogin')}
                   </button>
                   &nbsp;
                   <select className="language-dropdown"
@@ -211,138 +310,100 @@ const DashboardLayout = ({ children }) => {
             </div>
           </nav>
 
+
+
           <main>{children}</main>
 
-
-          {/* <div className="footer">
+          <FloatingButton onClick={handleClick} />
+          <section id="contact">
             <div className="container">
-              <div className="row">
-                <div className="col-lg-8">
-                  <div className="row">
-                    <div className="col-6 col-md-3">
-                      <ul className="list-unstyled mb-0">
-                        <li><a href="#">First link</a></li>
-                        <li><a href="#">Second link</a></li>
-                      </ul>
+              <div className="row" data-aos="fade-up">
+                <div className="col-lg-4 col-md-4 col-sm-12 col-12">
+                  <div className="contact-about">
+                    <h6 className='line_style'>{t('translation.footer.heading1')}</h6>
+                    <div className="footer-title-line"></div>
+                    <div className="social-links">
+                      <img src={niclogo} alt="" width="130" height="90" /><br /><br />
+                      <a href="#" className="twitter"><i className="fab fa-twitter"></i></a>
+                      <a href="#" className="facebook"><i className="fab fa-facebook"></i></a>
+                      <a href="#" className="instagram"><i className="fab fa-instagram"></i></a>
+                      <a href="#" className="google-plus"><i className="fab fa-google-plus"></i></a>
+                      <a href="#" className="linkedin"><i className="fab fa-linkedin"></i></a>
                     </div>
-                    <div className="col-6 col-md-3">
-                      <ul className="list-unstyled mb-0">
-                        <li><a href="#">Third link</a></li>
-                        <li><a href="#">Fourth link</a></li>
-                      </ul>
+
+                  </div>
+                </div>
+
+                <div className="col-lg-4 col-md-4 col-sm-12 col-12">
+                  <div className="info">
+                    <h6 className='line_style'>{t('translation.footer.headOffice.heading')}</h6>
+                    <div className="footer-title-line"></div>
+                    <div>
+                      <i className="fas fa-map-marker-alt"></i>
+                      <p>{t('translation.footer.headOffice.address')}</p>
                     </div>
-                    <div className="col-6 col-md-3">
-                      <ul className="list-unstyled mb-0">
-                        <li><a href="#">Fifth link</a></li>
-                        <li><a href="#">Sixth link</a></li>
-                      </ul>
+                    <div className="icon_size">
+                      <i className="fa fa-envelope"></i>
+                      <p>{t('translation.footer.headOffice.email')}</p>
                     </div>
-                    <div className="col-6 col-md-3">
-                      <ul className="list-unstyled mb-0">
-                        <li><a href="#">Other link</a></li>
-                        <li><a href="#">Last link</a></li>
-                      </ul>
+                    <div>
+                      <i className="fa fa-phone"></i>
+                      <p>{t('translation.footer.headOffice.phone')}</p>
+                    </div>
+                    <div>
+                      <i className="fa fa-phone"></i>
+                      <p>{t('translation.footer.headOffice.phone1')}</p>
                     </div>
                   </div>
                 </div>
-                <div className="col-lg-4 mt-4 mt-lg-0">
-                  Premium and Open Source dashboard template with responsive and high quality UI. For Free!
+
+                <div className="col-lg-4 col-md-4 col-sm-12 col-12">
+                  <h6 className='line_style'>{t('translation.footer.bussinessHours.heading')}</h6>
+                  <div className="footer-title-line"></div>
+                  <div className="row">
+                    <div className="col-md-6">
+                      {t('translation.footer.bussinessHours.days')}
+                    </div>
+                    <div className="col-md-6">
+                      {t('translation.footer.bussinessHours.hours')}
+                    </div>
+                    <div className="col-md-12">
+                      {t('translation.footer.bussinessHours.timings')}
+                    </div>
+                    <div className="col-md-12">
+                      {t('translation.footer.bussinessHours.closing')}
+                    </div>
+                    <br />
+                    <img src={digital_logo} alt="" width="60" height="90" />
+                  </div>
                 </div>
               </div>
             </div>
-          </div>
-          <footer className="footer">
+          </section>
+
+          <footer id="footer">
             <div className="container">
-              <div className="row align-items-center flex-row-reverse">
-                <div className="col-12 col-lg-auto mt-3 mt-lg-0 text-center">
-                  Copyright © 2018 <a href=".">Tabler</a>. Theme by <a href="https://codecalm.net" target="_blank">codecalm.net</a> All rights reserved.
+              <div className="row">
+                <div className="col-lg-12 text-lg-left text-center">
+                  <div className="copyright">
+                    &copy; {t('translation.footer.copyrights')} <strong>{t('translation.footer.heading')}</strong>. {t('translation.footer.reserved')}
+                  </div>
                 </div>
+
               </div>
             </div>
-          </footer> */}
-           <section id="contact">
-                          <div className="container">
-                              <div className="row" data-aos="fade-up">
-                                  <div className="col-lg-4 col-md-4 col-sm-12 col-12">
-                                      <div className="contact-about">
-                                          <h6 className='line_style'>{t('translation.footer.heading1')}</h6>
-                                          <div className="footer-title-line"></div>
-                                          <div className="social-links">
-                                              <img src={niclogo} alt="" width="130" height="90" /><br /><br />
-                                              <a href="#" className="twitter"><i className="fab fa-twitter"></i></a>
-                                              <a href="#" className="facebook"><i className="fab fa-facebook"></i></a>
-                                              <a href="#" className="instagram"><i className="fab fa-instagram"></i></a>
-                                              <a href="#" className="google-plus"><i className="fab fa-google-plus"></i></a>
-                                              <a href="#" className="linkedin"><i className="fab fa-linkedin"></i></a>
-                                          </div>
-          
-                                      </div>
-                                  </div>
-          
-                                  <div className="col-lg-4 col-md-4 col-sm-12 col-12">
-                                      <div className="info">
-                                          <h6 className='line_style'>{t('translation.footer.headOffice.heading')}</h6>
-                                          <div className="footer-title-line"></div>
-                                          <div>
-                                              <i className="fas fa-map-marker-alt"></i>
-                                              <p>{t('translation.footer.headOffice.address')}</p>
-                                          </div>
-                                          <div className="icon_size">
-                                              <i className="fa fa-envelope"></i>
-                                              <p>{t('translation.footer.headOffice.email')}</p>
-                                          </div>
-                                          <div>
-                                              <i className="fa fa-phone"></i>
-                                              <p>{t('translation.footer.headOffice.phone')}</p>
-                                          </div>
-                                          <div>
-                                              <i className="fa fa-phone"></i>
-                                              <p>{t('translation.footer.headOffice.phone1')}</p>
-                                          </div>
-                                      </div>
-                                  </div>
-          
-                                  <div className="col-lg-4 col-md-4 col-sm-12 col-12">
-                                      <h6 className='line_style'>{t('translation.footer.bussinessHours.heading')}</h6>
-                                      <div className="footer-title-line"></div>
-                                      <div className="row">
-                                          <div className="col-md-6">
-                                              {t('translation.footer.bussinessHours.days')}
-                                          </div>
-                                          <div className="col-md-6">
-                                              {t('translation.footer.bussinessHours.hours')}
-                                          </div>
-                                          <div className="col-md-12">
-                                              {t('translation.footer.bussinessHours.timings')}
-                                          </div>
-                                          <div className="col-md-12">
-                                              {t('translation.footer.bussinessHours.closing')}
-                                          </div>
-                                          <br />
-                                          <img src={digital_logo} alt="" width="60" height="90" />
-                                      </div>
-                                  </div>
-                              </div>
-                          </div>
-                      </section>
-          
-                      <footer id="footer">
-                          <div className="container">
-                              <div className="row">
-                                  <div className="col-lg-12 text-lg-left text-center">
-                                      <div className="copyright">
-                                          &copy; {t('translation.footer.copyrights')} <strong>{t('translation.footer.heading')}</strong>. {t('translation.footer.reserved')}
-                                      </div>
-                                  </div>
-          
-                              </div>
-                          </div>
-                      </footer>
+          </footer>
         </div>
       </div>
     </div>
 
   );
 }
-
+const FloatingButton = ({ onClick }) => {
+  return (
+    <button className="floating-button" onClick={onClick}>
+      <i className="fa fa-home"></i>
+    </button>
+  );
+};
 export default DashboardLayout;
