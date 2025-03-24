@@ -412,4 +412,5 @@ const FloatingButton = ({ onClick }) => {
     </button>
   );
 };
+
 export default DashboardLayout;

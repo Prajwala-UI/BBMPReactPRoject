@@ -8,7 +8,7 @@ import SampleDeep_no from '../../assets/deedNo.jpg';
 
 const BBMP_TaxDetails = () => {
 
-    const [zoomLevel] = useState(0.9);
+    const [zoomLevel] = useState(0.8);
     useEffect(() => {
         document.body.style.zoom = zoomLevel; // Apply zoom
     }, [zoomLevel]);
