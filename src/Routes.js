@@ -47,6 +47,7 @@ import GetNewKhataReport from './Pages/NewKhataReport';
 import BBMPLogin from './Pages/BBMPLogin';
 import BBMP_TaxDetails from './Pages/BBMP/taxDetails';
 import BBMP_Homepage from './Pages/BBMP/homePage';
+import BBMP_LayoutForm from './Pages/BBMP/BBMP_Layout';
 
 const AppRoutes = () => {
   return (
@@ -61,6 +62,7 @@ const AppRoutes = () => {
             <Route path="/" element={<BBMPLogin />} />
             <Route path="/tax_Details" element={<BBMP_TaxDetails />} />
             <Route path="/homePage" element={<BBMP_Homepage />} />
+            <Route path="/LayoutForm" element={<BBMP_LayoutForm/>}/>
             <Route path="/login" element={<Login />} />
             <Route path="/PropertyList" element={<PropertyList />} />
             {/* <Route
